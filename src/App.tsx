@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   Card,
   InputNumber,
@@ -28,14 +28,50 @@ interface HexagonInputs {
 }
 
 const HexagonCalculator: React.FC = () => {
-  const [unitSystem, setUnitSystem] = useState<UnitSystem>('imperial');
-  const [inputs, setInputs] = useState<HexagonInputs>({
-    targetWidth: 48,
-    targetHeight: 24,
-    edgeSize: 2,
-    gap: 0.125,
-    depth: 0.75,
-  });
+  // Load initial state from localStorage or use defaults
+  const loadFromLocalStorage = () => {
+    try {
+      const savedUnitSystem = localStorage.getItem('hexcalc_unitSystem');
+      const savedInputs = localStorage.getItem('hexcalc_inputs');
+
+      return {
+        unitSystem: (savedUnitSystem as UnitSystem) || 'imperial',
+        inputs: savedInputs ? JSON.parse(savedInputs) : {
+          targetWidth: 48,
+          targetHeight: 24,
+          edgeSize: 2,
+          gap: 0.125,
+          depth: 0.75,
+        }
+      };
+    } catch (error) {
+      console.error('Error loading from localStorage:', error);
+      return {
+        unitSystem: 'imperial' as UnitSystem,
+        inputs: {
+          targetWidth: 48,
+          targetHeight: 24,
+          edgeSize: 2,
+          gap: 0.125,
+          depth: 0.75,
+        }
+      };
+    }
+  };
+
+  const initialState = loadFromLocalStorage();
+  const [unitSystem, setUnitSystem] = useState<UnitSystem>(initialState.unitSystem);
+  const [inputs, setInputs] = useState<HexagonInputs>(initialState.inputs);
+
+  // Save to localStorage whenever state changes
+  useEffect(() => {
+    try {
+      localStorage.setItem('hexcalc_unitSystem', unitSystem);
+      localStorage.setItem('hexcalc_inputs', JSON.stringify(inputs));
+    } catch (error) {
+      console.error('Error saving to localStorage:', error);
+    }
+  }, [unitSystem, inputs]);
 
   const unitLabel = unitSystem === 'metric' ? 'cm' : 'in';
   const volumeLabel = unitSystem === 'metric' ? 'ml' : 'fl oz';
@@ -191,7 +227,8 @@ const HexagonCalculator: React.FC = () => {
           border: '1px solid #d9d9d9',
           borderRadius: 8,
           background: '#fafafa',
-          display: 'block'
+          display: 'block',
+          margin: '0 auto'
         }}
       >
         {/* Define gradients for hexagons */}
@@ -334,6 +371,171 @@ const HexagonCalculator: React.FC = () => {
     return points.map((p) => p.join(',')).join(' ');
   };
 
+  // Render single hexagon detail view
+  const renderSingleHexagon = () => {
+    const { edgeSize } = inputs;
+    const s = edgeSize;
+
+    // Hexagon dimensions
+    const hexWidth = Math.sqrt(3) * s; // point to point
+    const hexHeight = 2 * s; // flat to flat
+
+    // SVG dimensions
+    const svgWidth = 400;
+    const svgHeight = 400;
+    const scale = 40; // Scale factor for display
+    const scaledEdge = s * scale;
+    const scaledWidth = hexWidth * scale;
+    const scaledHeight = hexHeight * scale;
+
+    // Center position
+    const cx = svgWidth / 2;
+    const cy = svgHeight / 2;
+
+    return (
+      <svg
+        width={svgWidth}
+        height={svgHeight}
+        style={{
+          border: '1px solid #d9d9d9',
+          borderRadius: 8,
+          background: '#fafafa',
+          display: 'block',
+          margin: '0 auto'
+        }}
+      >
+        {/* Define gradient */}
+        <defs>
+          <linearGradient id="singleHexGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#8B4513" />
+            <stop offset="50%" stopColor="#A0522D" />
+            <stop offset="100%" stopColor="#654321" />
+          </linearGradient>
+          <filter id="singleHexShadow">
+            <feDropShadow dx="2" dy="2" stdDeviation="3" floodOpacity="0.3" />
+          </filter>
+        </defs>
+
+        {/* Draw hexagon */}
+        <polygon
+          points={generateHexagonPoints(cx, cy, scaledEdge)}
+          fill="url(#singleHexGradient)"
+          stroke="#654321"
+          strokeWidth="2"
+          filter="url(#singleHexShadow)"
+        />
+
+        {/* Width dimension line (horizontal, point to point) */}
+        <line
+          x1={cx - scaledWidth / 2}
+          y1={cy + scaledHeight / 2 + 30}
+          x2={cx + scaledWidth / 2}
+          y2={cy + scaledHeight / 2 + 30}
+          stroke="#1890ff"
+          strokeWidth="2"
+        />
+        <line x1={cx - scaledWidth / 2} y1={cy + scaledHeight / 2 + 25} x2={cx - scaledWidth / 2} y2={cy + scaledHeight / 2 + 35} stroke="#1890ff" strokeWidth="2" />
+        <line x1={cx + scaledWidth / 2} y1={cy + scaledHeight / 2 + 25} x2={cx + scaledWidth / 2} y2={cy + scaledHeight / 2 + 35} stroke="#1890ff" strokeWidth="2" />
+
+        {/* Width label with white outline */}
+        <text
+          x={cx}
+          y={cy + scaledHeight / 2 + 50}
+          textAnchor="middle"
+          stroke="white"
+          strokeWidth="4"
+          fill="white"
+          fontSize="14"
+          fontWeight="bold"
+        >
+          Width: {hexWidth.toFixed(2)} {unitLabel}
+        </text>
+        <text
+          x={cx}
+          y={cy + scaledHeight / 2 + 50}
+          textAnchor="middle"
+          fill="#1890ff"
+          fontSize="14"
+          fontWeight="bold"
+        >
+          Width: {hexWidth.toFixed(2)} {unitLabel}
+        </text>
+
+        {/* Height dimension line (vertical, flat to flat) */}
+        <line
+          x1={cx + scaledWidth / 2 + 30}
+          y1={cy - scaledHeight / 2}
+          x2={cx + scaledWidth / 2 + 30}
+          y2={cy + scaledHeight / 2}
+          stroke="#52c41a"
+          strokeWidth="2"
+        />
+        <line x1={cx + scaledWidth / 2 + 25} y1={cy - scaledHeight / 2} x2={cx + scaledWidth / 2 + 35} y2={cy - scaledHeight / 2} stroke="#52c41a" strokeWidth="2" />
+        <line x1={cx + scaledWidth / 2 + 25} y1={cy + scaledHeight / 2} x2={cx + scaledWidth / 2 + 35} y2={cy + scaledHeight / 2} stroke="#52c41a" strokeWidth="2" />
+
+        {/* Height label with white outline */}
+        <text
+          x={cx + scaledWidth / 2 + 50}
+          y={cy}
+          textAnchor="start"
+          stroke="white"
+          strokeWidth="4"
+          fill="white"
+          fontSize="14"
+          fontWeight="bold"
+          dominantBaseline="middle"
+        >
+          Height: {hexHeight.toFixed(2)} {unitLabel}
+        </text>
+        <text
+          x={cx + scaledWidth / 2 + 50}
+          y={cy}
+          textAnchor="start"
+          fill="#52c41a"
+          fontSize="14"
+          fontWeight="bold"
+          dominantBaseline="middle"
+        >
+          Height: {hexHeight.toFixed(2)} {unitLabel}
+        </text>
+
+        {/* Edge size dimension line (one side) */}
+        <line
+          x1={cx}
+          y1={cy - scaledEdge}
+          x2={cx + scaledEdge * Math.sqrt(3) / 2}
+          y2={cy - scaledEdge / 2}
+          stroke="#ff4d4f"
+          strokeWidth="3"
+        />
+
+        {/* Edge label with white outline */}
+        <text
+          x={cx + scaledEdge * Math.sqrt(3) / 4}
+          y={cy - scaledEdge * 0.75 - 10}
+          textAnchor="middle"
+          stroke="white"
+          strokeWidth="4"
+          fill="white"
+          fontSize="14"
+          fontWeight="bold"
+        >
+          Edge: {s.toFixed(2)} {unitLabel}
+        </text>
+        <text
+          x={cx + scaledEdge * Math.sqrt(3) / 4}
+          y={cy - scaledEdge * 0.75 - 10}
+          textAnchor="middle"
+          fill="#ff4d4f"
+          fontSize="14"
+          fontWeight="bold"
+        >
+          Edge: {s.toFixed(2)} {unitLabel}
+        </text>
+      </svg>
+    );
+  };
+
   const { Title, Text } = Typography;
 
   return (
@@ -445,6 +647,30 @@ const HexagonCalculator: React.FC = () => {
                     />
                   </div>
                 </Space>
+              </Card>
+
+              {/* Hexagon Details Card */}
+              <Card
+                title={<><AppstoreOutlined /> Hexagon Details</>}
+                variant="borderless"
+              >
+                <div style={{ marginBottom: 16, padding: '12px', background: '#f5f5f5', borderRadius: 8 }}>
+                  <Space size="middle" wrap>
+                    <Space size="small">
+                      <div style={{ width: 20, height: 3, background: '#ff4d4f' }} />
+                      <Text>Edge Size</Text>
+                    </Space>
+                    <Space size="small">
+                      <div style={{ width: 20, height: 3, background: '#1890ff' }} />
+                      <Text>Width (point to point)</Text>
+                    </Space>
+                    <Space size="small">
+                      <div style={{ width: 20, height: 3, background: '#52c41a' }} />
+                      <Text>Height (flat to flat)</Text>
+                    </Space>
+                  </Space>
+                </div>
+                {renderSingleHexagon()}
               </Card>
             </Space>
           </Col>
