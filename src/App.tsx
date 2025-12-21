@@ -118,7 +118,7 @@ const HexagonCalculator: React.FC = () => {
     const { edgeSize, gap } = inputs;
     const { numColumns, numRows, patternWidth, patternHeight } = calculations;
 
-    const padding = 60;
+    const padding = 80;
     const svgWidth = 800;
     const svgHeight = 600;
     const scale = Math.min(
