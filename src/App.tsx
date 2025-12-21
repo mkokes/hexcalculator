@@ -118,7 +118,7 @@ const HexagonCalculator: React.FC = () => {
     const { edgeSize, gap } = inputs;
     const { numColumns, numRows, patternWidth, patternHeight } = calculations;
 
-    const padding = 40;
+    const padding = 60;
     const svgWidth = 800;
     const svgHeight = 600;
     const scale = Math.min(
@@ -246,6 +246,19 @@ const HexagonCalculator: React.FC = () => {
           opacity="0.8"
         />
 
+        {/* Pattern width label with white outline */}
+        <text
+          x={offsetX + scaledPatternWidth / 2}
+          y={offsetY - 10}
+          textAnchor="middle"
+          stroke="white"
+          strokeWidth="4"
+          fill="white"
+          fontSize="14"
+          fontWeight="bold"
+        >
+          {patternWidth.toFixed(2)} {unitLabel}
+        </text>
         <text
           x={offsetX + scaledPatternWidth / 2}
           y={offsetY - 10}
@@ -255,6 +268,21 @@ const HexagonCalculator: React.FC = () => {
           fontWeight="bold"
         >
           {patternWidth.toFixed(2)} {unitLabel}
+        </text>
+
+        {/* Pattern height label with white outline */}
+        <text
+          x={offsetX - 10}
+          y={offsetY + scaledPatternHeight / 2}
+          textAnchor="end"
+          stroke="white"
+          strokeWidth="4"
+          fill="white"
+          fontSize="14"
+          fontWeight="bold"
+          dominantBaseline="middle"
+        >
+          {patternHeight.toFixed(2)} {unitLabel}
         </text>
         <text
           x={offsetX - 10}
@@ -268,6 +296,19 @@ const HexagonCalculator: React.FC = () => {
           {patternHeight.toFixed(2)} {unitLabel}
         </text>
 
+        {/* Target label with white outline */}
+        <text
+          x={rectX + rectScaledWidth / 2}
+          y={rectY - 5}
+          textAnchor="middle"
+          stroke="white"
+          strokeWidth="4"
+          fill="white"
+          fontSize="12"
+          fontWeight="bold"
+        >
+          Target: {inputs.targetWidth} × {inputs.targetHeight} {unitLabel}
+        </text>
         <text
           x={rectX + rectScaledWidth / 2}
           y={rectY - 5}
