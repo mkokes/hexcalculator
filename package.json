@@ -3,6 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
+  "packageManager": "yarn@4.5.3",
   "description": "Hexagon Tabletop Calculator - A tool for calculating hexagon patterns and epoxy requirements",
   "scripts": {
     "dev": "vite",
