@@ -2,23 +2,26 @@
 
 A React-based web application for calculating hexagon tile patterns and epoxy requirements for tabletop projects. Perfect for woodworkers and makers creating hexagonal patterns with precise measurements.
 
+🌐 **Live Demo**: [https://mkokes.github.io/hexcalculator/](https://mkokes.github.io/hexcalculator/)
+
 ## Features
 
 - 🎯 **Pattern Calculation**: Automatically calculates the number of hexagons needed to cover a target area
 - 📐 **Precise Measurements**: Supports both metric (cm) and imperial (inches) units
-- 🎨 **Visual Preview**: Real-time SVG visualization of the hexagon pattern
-- 💧 **Epoxy Calculator**: Calculates the volume of epoxy needed to fill gaps
+- 🎨 **Visual Preview**: Real-time SVG visualization of the hexagon pattern with dimension labels
+- � **Hexagon Details**: Detailed view of a single hexagon showing edge size, width, and height measurements
+- �💧 **Epoxy Calculator**: Calculates the volume of epoxy needed to fill gaps
 - ⚙️ **Customizable Parameters**: Adjust hexagon size, gap width, and depth
+- 💾 **Persistent Settings**: All inputs are automatically saved to localStorage and restored on page reload
 
 ## Tech Stack
 
-- **React 19** - UI framework
+- **React 19.2.3** - UI framework
 - **TypeScript** - Type safety
-- **Vite** - Fast build tool and dev server
-- **Tailwind CSS** - Utility-first styling
-- **Lucide React** - Icon library
+- **Vite 7.3.0** - Fast build tool and dev server
+- **Ant Design 6.1.1** - Comprehensive React UI library
+- **Ant Design Icons** - Icon library
 - **ESLint** - Code linting
-- **Prettier** - Code formatting
 
 ## Prerequisites
 
@@ -55,13 +58,10 @@ yarn preview
 
 | Command | Description |
 |---------|-------------|
-| `yarn dev` | Start development server with hot reload |
+| `yarn dev` | Start development server with hot reload at http://localhost:3000/hexcalculator/ |
 | `yarn build` | Build optimized production bundle |
 | `yarn preview` | Preview production build locally |
 | `yarn lint` | Run ESLint to check code quality |
-| `yarn lint:fix` | Automatically fix ESLint issues |
-| `yarn format` | Format code with Prettier |
-| `yarn format:check` | Check code formatting without changes |
 
 ## Usage
 
@@ -72,36 +72,75 @@ yarn preview
 5. **Set Depth**: Enter the depth for epoxy volume calculation
 
 The calculator will display:
-- Number of columns and rows needed
-- Total hexagon count
-- Actual pattern dimensions (may exceed target to ensure full coverage)
-- Required epoxy volume in both small and large units
+- **Pattern Preview**: Visual representation of the hexagon layout with dimension labels
+- **Hexagon Details**: Detailed view showing individual hexagon measurements (edge, width, height)
+- **Results**: Number of columns and rows needed, total hexagon count
+- **Actual Pattern Size**: Final dimensions (may exceed target to ensure full coverage)
+- **Epoxy Required**: Volume needed in both small and large units
+
+All settings are automatically saved to your browser's localStorage and will be restored when you return to the page.
 
 ## Project Structure
 
 ```
 hexcalculator/
 ├── src/
-│   ├── App.tsx          # Main calculator component
+│   ├── App.tsx          # Main calculator component with Ant Design Layout
 │   ├── main.tsx         # Application entry point
-│   └── index.css        # Global styles with Tailwind
-├── public/              # Static assets
-├── .eslintrc            # ESLint configuration
-├── .prettierrc          # Prettier configuration
+│   └── index.css        # Global styles and animations
+├── dist/                # Production build output
+├── .github/
+│   └── workflows/
+│       └── deploy.yml   # GitHub Actions deployment workflow
 ├── tsconfig.json        # TypeScript configuration
-├── vite.config.ts       # Vite configuration
-├── tailwind.config.js   # Tailwind CSS configuration
+├── vite.config.ts       # Vite configuration with GitHub Pages base path
 └── package.json         # Project dependencies and scripts
+```
+
+## Deployment
+
+This project is automatically deployed to GitHub Pages using GitHub Actions:
+
+1. **Automatic Deployment**: Every push to the `main` branch triggers a deployment
+2. **Build Process**: Vite builds the production bundle with base path `/hexcalculator/`
+3. **GitHub Pages**: Deployed to https://mkokes.github.io/hexcalculator/
+
+### Manual Deployment
+
+```bash
+# Build for production
+yarn build
+
+# The dist/ folder contains the production build
+# GitHub Actions automatically deploys this to GitHub Pages
 ```
 
 ## Code Quality
 
 This project uses:
 - **ESLint** with TypeScript and React plugins for code quality
-- **Prettier** for consistent code formatting
 - **TypeScript** strict mode for type safety
 
-Run `yarn lint` and `yarn format:check` before committing changes.
+Run `yarn lint` before committing changes.
+
+## Key Features Explained
+
+### localStorage Persistence
+All user inputs (target dimensions, edge size, gap, depth, and unit system) are automatically saved to the browser's localStorage. This means your settings persist across page refreshes and browser sessions.
+
+### Hexagon Geometry
+The calculator uses pointy-top hexagon orientation with the following relationships:
+- **Edge Size**: Length of one side of the hexagon
+- **Width** (point to point): √3 × edge size
+- **Height** (flat to flat): 2 × edge size
+
+### Pattern Layout
+The calculator arranges hexagons in a honeycomb pattern with offset rows, ensuring efficient coverage of the target area. The actual pattern size may slightly exceed the target dimensions to ensure complete coverage.
+
+### Visual Feedback
+- **Pattern Preview**: Shows the complete hexagon layout with color-coded dimension lines
+- **Hexagon Details**: Displays a single hexagon with labeled measurements for reference
+- **Real-time Updates**: All calculations and visualizations update instantly as you adjust parameters
 
 ## License
 
@@ -109,7 +148,7 @@ ISC
 
 ## Contributing
 
-Contributions are welcome! Please ensure all code passes linting and formatting checks before submitting.
+Contributions are welcome! Please ensure all code passes linting checks before submitting.
 
 ---
 
