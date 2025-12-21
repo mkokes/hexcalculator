@@ -131,7 +131,7 @@ const HexagonCalculator: React.FC = () => {
     const offsetX = (svgWidth - scaledPatternWidth) / 2;
     const offsetY = (svgHeight - scaledPatternHeight) / 2;
 
-    const hexagons: JSX.Element[] = [];
+    const hexagons: React.JSX.Element[] = [];
     const s = edgeSize;
     const g = gap;
 
