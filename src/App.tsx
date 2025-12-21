@@ -469,23 +469,23 @@ const HexagonCalculator: React.FC = () => {
           Width: {hexWidth.toFixed(2)} {unitLabel}
         </text>
 
-        {/* Height dimension line (vertical, flat to flat) */}
+        {/* Height dimension line (vertical, flat to flat) - on left side */}
         <line
-          x1={cx + scaledWidth / 2 + 30}
+          x1={cx - scaledWidth / 2 - 30}
           y1={cy - scaledHeight / 2}
-          x2={cx + scaledWidth / 2 + 30}
+          x2={cx - scaledWidth / 2 - 30}
           y2={cy + scaledHeight / 2}
           stroke="#52c41a"
           strokeWidth="2"
         />
-        <line x1={cx + scaledWidth / 2 + 25} y1={cy - scaledHeight / 2} x2={cx + scaledWidth / 2 + 35} y2={cy - scaledHeight / 2} stroke="#52c41a" strokeWidth="2" />
-        <line x1={cx + scaledWidth / 2 + 25} y1={cy + scaledHeight / 2} x2={cx + scaledWidth / 2 + 35} y2={cy + scaledHeight / 2} stroke="#52c41a" strokeWidth="2" />
+        <line x1={cx - scaledWidth / 2 - 35} y1={cy - scaledHeight / 2} x2={cx - scaledWidth / 2 - 25} y2={cy - scaledHeight / 2} stroke="#52c41a" strokeWidth="2" />
+        <line x1={cx - scaledWidth / 2 - 35} y1={cy + scaledHeight / 2} x2={cx - scaledWidth / 2 - 25} y2={cy + scaledHeight / 2} stroke="#52c41a" strokeWidth="2" />
 
-        {/* Height label with white outline */}
+        {/* Height label with white outline - on left side */}
         <text
-          x={cx + scaledWidth / 2 + 50}
+          x={cx - scaledWidth / 2 - 50}
           y={cy}
-          textAnchor="start"
+          textAnchor="end"
           stroke="white"
           strokeWidth="4"
           fill="white"
@@ -496,9 +496,9 @@ const HexagonCalculator: React.FC = () => {
           Height: {hexHeight.toFixed(2)} {unitLabel}
         </text>
         <text
-          x={cx + scaledWidth / 2 + 50}
+          x={cx - scaledWidth / 2 - 50}
           y={cy}
-          textAnchor="start"
+          textAnchor="end"
           fill="#52c41a"
           fontSize="14"
           fontWeight="bold"
