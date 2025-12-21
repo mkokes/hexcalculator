@@ -551,8 +551,7 @@ const HexagonCalculator: React.FC = () => {
       <div style={{ maxWidth: 1400, margin: '0 auto' }}>
         {/* Header */}
         <Card
-          style={{ marginBottom: 24 }}
-          variant="borderless"
+          style={{ marginBottom: 24, display: 'block', position: 'relative' }}
         >
           <Space orientation="vertical" size="small">
             <Title level={2} style={{ margin: 0 }}>
