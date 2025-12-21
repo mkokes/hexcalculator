@@ -380,10 +380,18 @@ const HexagonCalculator: React.FC = () => {
     const hexWidth = Math.sqrt(3) * s; // point to point
     const hexHeight = 2 * s; // flat to flat
 
-    // SVG dimensions
+    // SVG dimensions with padding for labels
     const svgWidth = 400;
     const svgHeight = 400;
-    const scale = 40; // Scale factor for display
+    const padding = 80; // Padding to prevent label cutoff
+
+    // Calculate scale to fit hexagon with padding
+    const maxHexDimension = Math.max(hexWidth, hexHeight);
+    const scale = Math.min(
+      (svgWidth - 2 * padding) / maxHexDimension,
+      (svgHeight - 2 * padding) / maxHexDimension
+    );
+
     const scaledEdge = s * scale;
     const scaledWidth = hexWidth * scale;
     const scaledHeight = hexHeight * scale;
