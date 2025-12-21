@@ -8,7 +8,8 @@ import {
   Space,
   Typography,
   Segmented,
-  Divider
+  Divider,
+  Layout
 } from 'antd';
 import {
   ColumnWidthOutlined,
@@ -16,6 +17,8 @@ import {
   BgColorsOutlined,
   DashboardOutlined
 } from '@ant-design/icons';
+
+const { Header, Content } = Layout;
 
 type UnitSystem = 'metric' | 'imperial';
 
@@ -547,21 +550,25 @@ const HexagonCalculator: React.FC = () => {
   const { Title, Text } = Typography;
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f0f2f5', padding: '48px 24px' }}>
-      <div style={{ maxWidth: 1400, margin: '0 auto' }}>
-        {/* Header */}
-        <Card
-          style={{ marginBottom: 24, display: 'block', position: 'relative' }}
-        >
-          <Space orientation="vertical" size="small">
-            <Title level={2} style={{ margin: 0 }}>
-              <AppstoreOutlined /> Hexagon Tabletop Calculator
-            </Title>
-            <Text type="secondary">Design your perfect hexagonal pattern for woodworking projects</Text>
-          </Space>
-        </Card>
+    <Layout style={{ minHeight: '100vh' }}>
+      <Header style={{
+        background: '#fff',
+        padding: '0 50px',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+        display: 'flex',
+        alignItems: 'center'
+      }}>
+        <Space orientation="vertical" size="small" style={{ width: '100%', padding: '16px 0' }}>
+          <Title level={2} style={{ margin: 0 }}>
+            <AppstoreOutlined /> Hexagon Tabletop Calculator
+          </Title>
+          <Text type="secondary">Design your perfect hexagonal pattern for woodworking projects</Text>
+        </Space>
+      </Header>
 
-        <Row gutter={[24, 24]}>
+      <Content style={{ padding: '48px 24px', background: '#f0f2f5' }}>
+        <div style={{ maxWidth: 1400, margin: '0 auto' }}>
+          <Row gutter={[24, 24]}>
           {/* Left Column - Inputs */}
           <Col xs={24} lg={8}>
             <Space orientation="vertical" size="large" style={{ width: '100%' }}>
@@ -748,8 +755,9 @@ const HexagonCalculator: React.FC = () => {
             </Space>
           </Col>
         </Row>
-      </div>
-    </div>
+        </div>
+      </Content>
+    </Layout>
   );
 };
 
