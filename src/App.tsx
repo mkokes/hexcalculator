@@ -481,11 +481,11 @@ const HexagonCalculator: React.FC = () => {
         <line x1={cx - scaledWidth / 2 - 35} y1={cy - scaledHeight / 2} x2={cx - scaledWidth / 2 - 25} y2={cy - scaledHeight / 2} stroke="#52c41a" strokeWidth="2" />
         <line x1={cx - scaledWidth / 2 - 35} y1={cy + scaledHeight / 2} x2={cx - scaledWidth / 2 - 25} y2={cy + scaledHeight / 2} stroke="#52c41a" strokeWidth="2" />
 
-        {/* Height label with white outline - on left side */}
+        {/* Height label with white outline - text on right side of line */}
         <text
-          x={cx - scaledWidth / 2 - 50}
+          x={cx - scaledWidth / 2 - 10}
           y={cy}
-          textAnchor="end"
+          textAnchor="start"
           stroke="white"
           strokeWidth="4"
           fill="white"
@@ -496,9 +496,9 @@ const HexagonCalculator: React.FC = () => {
           Height: {hexHeight.toFixed(2)} {unitLabel}
         </text>
         <text
-          x={cx - scaledWidth / 2 - 50}
+          x={cx - scaledWidth / 2 - 10}
           y={cy}
-          textAnchor="end"
+          textAnchor="start"
           fill="#52c41a"
           fontSize="14"
           fontWeight="bold"
