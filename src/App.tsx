@@ -261,9 +261,6 @@ const HexagonCalculator: React.FC = () => {
             <path d="M0,65 Q25,67 50,65 T100,65" stroke="#6B5D4F" strokeWidth="0.7" fill="none" opacity="0.5" />
             <path d="M0,75 Q25,73 50,75 T100,75" stroke="#8B7355" strokeWidth="0.5" fill="none" opacity="0.3" />
             <path d="M0,90 Q25,92 50,90 T100,90" stroke="#8B7355" strokeWidth="0.6" fill="none" opacity="0.4" />
-            {/* Knots and imperfections */}
-            <ellipse cx="30" cy="40" rx="8" ry="12" fill="#8B7355" opacity="0.2" />
-            <ellipse cx="70" cy="70" rx="6" ry="10" fill="#6B5D4F" opacity="0.15" />
           </pattern>
 
           <pattern id="woodGrain2" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
@@ -275,9 +272,6 @@ const HexagonCalculator: React.FC = () => {
             <path d="M0,55 Q25,57 50,55 T100,55" stroke="#A0826D" strokeWidth="0.5" fill="none" opacity="0.3" />
             <path d="M0,70 Q25,68 50,70 T100,70" stroke="#8B7355" strokeWidth="0.8" fill="none" opacity="0.4" />
             <path d="M0,85 Q25,87 50,85 T100,85" stroke="#A0826D" strokeWidth="0.6" fill="none" opacity="0.3" />
-            {/* Knots */}
-            <ellipse cx="45" cy="60" rx="7" ry="11" fill="#8B7355" opacity="0.18" />
-            <ellipse cx="80" cy="25" rx="5" ry="9" fill="#6B5D4F" opacity="0.12" />
           </pattern>
 
           <filter id="hexShadow">
@@ -470,9 +464,6 @@ const HexagonCalculator: React.FC = () => {
             <path d="M0,65 Q25,67 50,65 T100,65" stroke="#6B5D4F" strokeWidth="0.7" fill="none" opacity="0.5" />
             <path d="M0,75 Q25,73 50,75 T100,75" stroke="#8B7355" strokeWidth="0.5" fill="none" opacity="0.3" />
             <path d="M0,90 Q25,92 50,90 T100,90" stroke="#8B7355" strokeWidth="0.6" fill="none" opacity="0.4" />
-            {/* Knots and imperfections */}
-            <ellipse cx="30" cy="40" rx="8" ry="12" fill="#8B7355" opacity="0.2" />
-            <ellipse cx="70" cy="70" rx="6" ry="10" fill="#6B5D4F" opacity="0.15" />
           </pattern>
 
           <filter id="singleHexShadow">
