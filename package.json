@@ -23,6 +23,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@ant-design/icons": "^6.1.0",
     "antd": "^6.1.1",
     "lucide-react": "^0.562.0",
     "react": "^19.2.3",

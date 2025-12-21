@@ -3279,6 +3279,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "hexcalculator@workspace:."
   dependencies:
+    "@ant-design/icons": "npm:^6.1.0"
     "@eslint/js": "npm:^9.39.2"
     "@tailwindcss/postcss": "npm:^4.1.18"
     "@types/react": "npm:^19.2.7"
