@@ -1,5 +1,21 @@
 import React, { useState, useMemo } from 'react';
-import { Ruler } from 'lucide-react';
+import {
+  Card,
+  InputNumber,
+  Row,
+  Col,
+  Statistic,
+  Space,
+  Typography,
+  Segmented,
+  Divider
+} from 'antd';
+import {
+  ColumnWidthOutlined,
+  AppstoreOutlined,
+  BgColorsOutlined,
+  DashboardOutlined
+} from '@ant-design/icons';
 
 type UnitSystem = 'metric' | 'imperial';
 
@@ -144,13 +160,18 @@ const HexagonCalculator: React.FC = () => {
         }
 
         const points = generateHexagonPoints(x * scale + offsetX, y * scale + offsetY, s * scale);
+        // Alternate between two gradients for visual variety
+        const gradientId = (row + col) % 2 === 0 ? 'woodGradient' : 'woodGradient2';
         hexagons.push(
           <polygon
             key={`hex-${row}-${col}`}
             points={points}
-            fill="#8B4513"
+            fill={`url(#${gradientId})`}
             stroke="#654321"
-            strokeWidth="1"
+            strokeWidth="1.5"
+            filter="url(#hexShadow)"
+            opacity="0.95"
+            className="transition-opacity hover:opacity-100"
           />
         );
       }
@@ -166,8 +187,39 @@ const HexagonCalculator: React.FC = () => {
       <svg
         width={svgWidth}
         height={svgHeight}
-        className="border border-gray-300 rounded-lg bg-gray-50"
+        style={{
+          border: '1px solid #d9d9d9',
+          borderRadius: 8,
+          background: '#fafafa',
+          display: 'block',
+          margin: '0 auto'
+        }}
       >
+        {/* Define gradients for hexagons */}
+        <defs>
+          <linearGradient id="woodGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style={{ stopColor: '#D2691E', stopOpacity: 1 }} />
+            <stop offset="50%" style={{ stopColor: '#8B4513', stopOpacity: 1 }} />
+            <stop offset="100%" style={{ stopColor: '#654321', stopOpacity: 1 }} />
+          </linearGradient>
+          <linearGradient id="woodGradient2" x1="100%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style={{ stopColor: '#CD853F', stopOpacity: 1 }} />
+            <stop offset="50%" style={{ stopColor: '#A0522D', stopOpacity: 1 }} />
+            <stop offset="100%" style={{ stopColor: '#8B4513', stopOpacity: 1 }} />
+          </linearGradient>
+          <filter id="hexShadow">
+            <feDropShadow dx="0" dy="1" stdDeviation="1" floodOpacity="0.3" />
+          </filter>
+        </defs>
+
+        {/* Background grid pattern */}
+        <defs>
+          <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#e5e7eb" strokeWidth="0.5" opacity="0.5" />
+          </pattern>
+        </defs>
+        <rect width={svgWidth} height={svgHeight} fill="url(#grid)" />
+
         {/* Target rectangle */}
         <rect
           x={rectX}
@@ -175,9 +227,10 @@ const HexagonCalculator: React.FC = () => {
           width={rectScaledWidth}
           height={rectScaledHeight}
           fill="none"
-          stroke="#ef4444"
-          strokeWidth="2"
-          strokeDasharray="5,5"
+          stroke="#ff4d4f"
+          strokeWidth="3"
+          strokeDasharray="8,4"
+          opacity="0.8"
         />
 
         {hexagons}
@@ -189,15 +242,16 @@ const HexagonCalculator: React.FC = () => {
           width={scaledPatternWidth}
           height={scaledPatternHeight}
           fill="none"
-          stroke="#2563eb"
+          stroke="#1890ff"
           strokeWidth="3"
+          opacity="0.8"
         />
 
         <text
           x={offsetX + scaledPatternWidth / 2}
           y={offsetY - 10}
           textAnchor="middle"
-          fill="#2563eb"
+          fill="#1890ff"
           fontSize="14"
           fontWeight="bold"
         >
@@ -207,7 +261,7 @@ const HexagonCalculator: React.FC = () => {
           x={offsetX - 10}
           y={offsetY + scaledPatternHeight / 2}
           textAnchor="end"
-          fill="#2563eb"
+          fill="#1890ff"
           fontSize="14"
           fontWeight="bold"
           dominantBaseline="middle"
@@ -219,7 +273,7 @@ const HexagonCalculator: React.FC = () => {
           x={rectX + rectScaledWidth / 2}
           y={rectY - 5}
           textAnchor="middle"
-          fill="#ef4444"
+          fill="#ff4d4f"
           fontSize="12"
           fontWeight="bold"
         >
@@ -240,178 +294,187 @@ const HexagonCalculator: React.FC = () => {
     return points.map((p) => p.join(',')).join(' ');
   };
 
+  const { Title, Text } = Typography;
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-50 p-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="bg-white rounded-xl shadow-2xl p-8">
-          <div className="flex items-center gap-3 mb-8">
-            <Ruler className="w-8 h-8 text-amber-600" />
-            <h1 className="text-3xl font-bold text-gray-800">Hexagon Tabletop Calculator</h1>
-          </div>
+    <div style={{ minHeight: '100vh', background: '#f0f2f5', padding: '24px' }}>
+      <div style={{ maxWidth: 1400, margin: '0 auto' }}>
+        {/* Header */}
+        <Card
+          style={{ marginBottom: 24 }}
+          variant="borderless"
+        >
+          <Space orientation="vertical" size="small">
+            <Title level={2} style={{ margin: 0 }}>
+              <AppstoreOutlined /> Hexagon Tabletop Calculator
+            </Title>
+            <Text type="secondary">Design your perfect hexagonal pattern for woodworking projects</Text>
+          </Space>
+        </Card>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Inputs */}
-            <div className="space-y-6">
-              <div className="bg-amber-50 p-4 rounded-lg">
-                <h2 className="text-lg font-semibold text-gray-800 mb-4">Settings</h2>
-
-                <div className="space-y-4">
+        <Row gutter={[24, 24]}>
+          {/* Left Column - Inputs */}
+          <Col xs={24} lg={8}>
+            <Space orientation="vertical" size="large" style={{ width: '100%' }}>
+              {/* Settings Card */}
+              <Card title={<><ColumnWidthOutlined /> Settings</>} variant="borderless">
+                <Space orientation="vertical" size="middle" style={{ width: '100%' }}>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Unit System
-                    </label>
-                    <div className="flex gap-2">
-                      <button
-                        onClick={() => setUnitSystem('imperial')}
-                        className={`flex-1 py-2 px-4 rounded-lg font-medium transition-colors ${
-                          unitSystem === 'imperial'
-                            ? 'bg-amber-600 text-white'
-                            : 'bg-white text-gray-700 border border-gray-300'
-                        }`}
-                      >
-                        Imperial
-                      </button>
-                      <button
-                        onClick={() => setUnitSystem('metric')}
-                        className={`flex-1 py-2 px-4 rounded-lg font-medium transition-colors ${
-                          unitSystem === 'metric'
-                            ? 'bg-amber-600 text-white'
-                            : 'bg-white text-gray-700 border border-gray-300'
-                        }`}
-                      >
-                        Metric
-                      </button>
-                    </div>
+                    <Text strong>Unit System</Text>
+                    <Segmented
+                      options={[
+                        { label: 'Imperial (in)', value: 'imperial' },
+                        { label: 'Metric (cm)', value: 'metric' }
+                      ]}
+                      value={unitSystem}
+                      onChange={(value) => setUnitSystem(value as UnitSystem)}
+                      block
+                      style={{ marginTop: 8 }}
+                    />
                   </div>
-                </div>
-              </div>
+                </Space>
+              </Card>
 
-              <div className="bg-blue-50 p-4 rounded-lg">
-                <h2 className="text-lg font-semibold text-gray-800 mb-4">Target Dimensions</h2>
-
-                <div className="space-y-4">
+              {/* Dimensions Card */}
+              <Card title={<><DashboardOutlined /> Dimensions</>} variant="borderless">
+                <Space orientation="vertical" size="middle" style={{ width: '100%' }}>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Target Width ({unitLabel})
-                    </label>
-                    <input
-                      type="number"
-                      min="1"
-                      step="0.1"
+                    <Text strong>Target Width ({unitLabel})</Text>
+                    <InputNumber
+                      id="targetWidth"
+                      min={1}
+                      step={0.1}
                       value={inputs.targetWidth}
-                      onChange={(e) => handleInputChange('targetWidth', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+                      onChange={(value) => handleInputChange('targetWidth', String(value || 0))}
+                      style={{ width: '100%', marginTop: 8 }}
+                      size="large"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Target Height ({unitLabel})
-                    </label>
-                    <input
-                      type="number"
-                      min="1"
-                      step="0.1"
+                    <Text strong>Target Height ({unitLabel})</Text>
+                    <InputNumber
+                      id="targetHeight"
+                      min={1}
+                      step={0.1}
                       value={inputs.targetHeight}
-                      onChange={(e) => handleInputChange('targetHeight', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+                      onChange={(value) => handleInputChange('targetHeight', String(value || 0))}
+                      style={{ width: '100%', marginTop: 8 }}
+                      size="large"
                     />
                   </div>
 
+                  <Divider />
+
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Hexagon Edge Size ({unitLabel})
-                    </label>
-                    <input
-                      type="number"
-                      min="0.1"
-                      step="0.1"
+                    <Text strong>Hexagon Edge Size ({unitLabel})</Text>
+                    <InputNumber
+                      id="edgeSize"
+                      min={0.1}
+                      step={0.1}
                       value={inputs.edgeSize}
-                      onChange={(e) => handleInputChange('edgeSize', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+                      onChange={(value) => handleInputChange('edgeSize', String(value || 0))}
+                      style={{ width: '100%', marginTop: 8 }}
+                      size="large"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Gap Between Hexagons ({unitLabel})
-                    </label>
-                    <input
-                      type="number"
-                      min="0"
-                      step="0.01"
+                    <Text strong>Gap Between Hexagons ({unitLabel})</Text>
+                    <InputNumber
+                      id="gap"
+                      min={0}
+                      step={0.01}
                       value={inputs.gap}
-                      onChange={(e) => handleInputChange('gap', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+                      onChange={(value) => handleInputChange('gap', String(value || 0))}
+                      style={{ width: '100%', marginTop: 8 }}
+                      size="large"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Depth ({unitLabel})
-                    </label>
-                    <input
-                      type="number"
-                      min="0.1"
-                      step="0.1"
+                    <Text strong>Depth ({unitLabel})</Text>
+                    <InputNumber
+                      id="depth"
+                      min={0.1}
+                      step={0.1}
                       value={inputs.depth}
-                      onChange={(e) => handleInputChange('depth', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+                      onChange={(value) => handleInputChange('depth', String(value || 0))}
+                      style={{ width: '100%', marginTop: 8 }}
+                      size="large"
                     />
                   </div>
-                </div>
-              </div>
-            </div>
+                </Space>
+              </Card>
+            </Space>
+          </Col>
 
-            {/* Diagram */}
-            <div className="lg:col-span-2 space-y-6">
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                  <Ruler className="w-5 h-5" />
-                  Pattern Preview
-                </h2>
-                <p className="text-sm text-gray-600 mb-4">
-                  Red dashed line = target dimensions, Hexagons extend beyond to fully cover
-                </p>
+          {/* Right Column - Diagram and Results */}
+          <Col xs={24} lg={16}>
+            <Space orientation="vertical" size="large" style={{ width: '100%' }}>
+              {/* Pattern Preview Card */}
+              <Card
+                title={<><AppstoreOutlined /> Pattern Preview</>}
+                variant="borderless"
+              >
+                <div style={{ marginBottom: 16, padding: '12px', background: '#f5f5f5', borderRadius: 8 }}>
+                  <Space size="middle">
+                    <Space size="small">
+                      <div style={{ width: 20, height: 3, background: '#ff4d4f', borderStyle: 'dashed', border: '1px dashed #ff4d4f' }} />
+                      <Text>Target dimensions</Text>
+                    </Space>
+                    <Space size="small">
+                      <div style={{ width: 20, height: 3, background: '#1890ff' }} />
+                      <Text>Pattern boundary</Text>
+                    </Space>
+                  </Space>
+                </div>
                 {renderDiagram()}
-              </div>
+              </Card>
 
-              {/* Results */}
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-green-50 p-4 rounded-lg">
-                  <h3 className="text-sm font-medium text-gray-600 mb-2">Actual Pattern Size</h3>
-                  <p className="text-2xl font-bold text-gray-800">
-                    {calculations.patternWidth.toFixed(2)} × {calculations.patternHeight.toFixed(2)}
-                  </p>
-                  <p className="text-sm text-gray-600">{unitLabel}</p>
-                </div>
-
-                <div className="bg-purple-50 p-4 rounded-lg">
-                  <h3 className="text-sm font-medium text-gray-600 mb-2">Hexagon Layout</h3>
-                  <p className="text-2xl font-bold text-gray-800">
-                    {calculations.numColumns} × {calculations.numRows}
-                  </p>
-                  <p className="text-sm text-gray-600">columns × rows</p>
-                </div>
-
-                <div className="bg-purple-50 p-4 rounded-lg">
-                  <h3 className="text-sm font-medium text-gray-600 mb-2">Total Hexagons</h3>
-                  <p className="text-3xl font-bold text-gray-800">{calculations.totalHexagons}</p>
-                </div>
-
-                <div className="bg-blue-50 p-4 rounded-lg">
-                  <h3 className="text-sm font-medium text-gray-600 mb-2">Epoxy Required (Gaps)</h3>
-                  <p className="text-xl font-bold text-gray-800">
-                    {calculations.epoxyVolumeSmall.toFixed(2)} {volumeLabel}
-                  </p>
-                  <p className="text-sm text-gray-600">
-                    ({calculations.epoxyVolumeLarge.toFixed(3)} {volumeLabelLarge})
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+              {/* Results Card */}
+              <Card title={<><BgColorsOutlined /> Results</>} variant="borderless">
+                <Row gutter={[16, 16]}>
+                  <Col xs={12} sm={12}>
+                    <Statistic
+                      title="Actual Pattern Size"
+                      value={`${calculations.patternWidth.toFixed(2)} × ${calculations.patternHeight.toFixed(2)}`}
+                      suffix={unitLabel}
+                      styles={{ content: { color: '#52c41a' } }}
+                    />
+                  </Col>
+                  <Col xs={12} sm={12}>
+                    <Statistic
+                      title="Hexagon Layout"
+                      value={`${calculations.numColumns} × ${calculations.numRows}`}
+                      suffix="cols × rows"
+                      styles={{ content: { color: '#722ed1' } }}
+                    />
+                  </Col>
+                  <Col xs={12} sm={12}>
+                    <Statistic
+                      title="Total Hexagons"
+                      value={calculations.totalHexagons}
+                      styles={{ content: { color: '#fa8c16', fontSize: 32 } }}
+                    />
+                  </Col>
+                  <Col xs={12} sm={12}>
+                    <Statistic
+                      title="Epoxy Required"
+                      value={calculations.epoxyVolumeSmall.toFixed(2)}
+                      suffix={volumeLabel}
+                      styles={{ content: { color: '#1890ff' } }}
+                      prefix={<BgColorsOutlined />}
+                    />
+                    <Text type="secondary" style={{ fontSize: 12 }}>
+                      ({calculations.epoxyVolumeLarge.toFixed(3)} {volumeLabelLarge})
+                    </Text>
+                  </Col>
+                </Row>
+              </Card>
+            </Space>
+          </Col>
+        </Row>
       </div>
     </div>
   );
