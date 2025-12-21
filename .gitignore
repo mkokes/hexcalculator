@@ -13,6 +13,19 @@ dist
 dist-ssr
 *.local
 
+# Lock files (using yarn)
+package-lock.json
+pnpm-lock.yaml
+
+# Yarn Berry (v2+)
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
