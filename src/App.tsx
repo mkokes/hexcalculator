@@ -553,12 +553,11 @@ const HexagonCalculator: React.FC = () => {
     <Layout style={{ minHeight: '100vh' }}>
       <Header style={{
         background: '#fff',
-        padding: '0 50px',
+        padding: '24px 50px',
         boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-        display: 'flex',
-        alignItems: 'center'
+        height: 'auto'
       }}>
-        <Space orientation="vertical" size="small" style={{ width: '100%', padding: '16px 0' }}>
+        <Space orientation="vertical" size="small" style={{ width: '100%' }}>
           <Title level={2} style={{ margin: 0 }}>
             <AppstoreOutlined /> Hexagon Tabletop Calculator
           </Title>
