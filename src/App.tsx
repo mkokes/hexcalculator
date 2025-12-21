@@ -199,14 +199,14 @@ const HexagonCalculator: React.FC = () => {
         }
 
         const points = generateHexagonPoints(x * scale + offsetX, y * scale + offsetY, s * scale);
-        // Alternate between two gradients for visual variety
-        const gradientId = (row + col) % 2 === 0 ? 'woodGradient' : 'woodGradient2';
+        // Alternate between two woodgrain patterns for visual variety
+        const patternId = (row + col) % 2 === 0 ? 'woodGrain1' : 'woodGrain2';
         hexagons.push(
           <polygon
             key={`hex-${row}-${col}`}
             points={points}
-            fill={`url(#${gradientId})`}
-            stroke="#654321"
+            fill={`url(#${patternId})`}
+            stroke="#8B7355"
             strokeWidth="1.5"
             filter="url(#hexShadow)"
             opacity="0.95"
@@ -234,18 +234,52 @@ const HexagonCalculator: React.FC = () => {
           margin: '0 auto'
         }}
       >
-        {/* Define gradients for hexagons */}
+        {/* Define woodgrain patterns and gradients */}
         <defs>
-          <linearGradient id="woodGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style={{ stopColor: '#D2691E', stopOpacity: 1 }} />
-            <stop offset="50%" style={{ stopColor: '#8B4513', stopOpacity: 1 }} />
-            <stop offset="100%" style={{ stopColor: '#654321', stopOpacity: 1 }} />
+          {/* Base wood colors */}
+          <linearGradient id="woodBase1" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style={{ stopColor: '#C19A6B', stopOpacity: 1 }} />
+            <stop offset="30%" style={{ stopColor: '#D2B48C', stopOpacity: 1 }} />
+            <stop offset="60%" style={{ stopColor: '#C19A6B', stopOpacity: 1 }} />
+            <stop offset="100%" style={{ stopColor: '#A0826D', stopOpacity: 1 }} />
           </linearGradient>
-          <linearGradient id="woodGradient2" x1="100%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" style={{ stopColor: '#CD853F', stopOpacity: 1 }} />
-            <stop offset="50%" style={{ stopColor: '#A0522D', stopOpacity: 1 }} />
-            <stop offset="100%" style={{ stopColor: '#8B4513', stopOpacity: 1 }} />
+          <linearGradient id="woodBase2" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style={{ stopColor: '#D2B48C', stopOpacity: 1 }} />
+            <stop offset="30%" style={{ stopColor: '#DEB887', stopOpacity: 1 }} />
+            <stop offset="60%" style={{ stopColor: '#D2B48C', stopOpacity: 1 }} />
+            <stop offset="100%" style={{ stopColor: '#C19A6B', stopOpacity: 1 }} />
           </linearGradient>
+
+          {/* Woodgrain texture pattern */}
+          <pattern id="woodGrain1" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+            <rect width="100" height="100" fill="url(#woodBase1)" />
+            {/* Grain lines */}
+            <path d="M0,10 Q25,8 50,10 T100,10" stroke="#8B7355" strokeWidth="0.5" fill="none" opacity="0.3" />
+            <path d="M0,25 Q25,23 50,25 T100,25" stroke="#8B7355" strokeWidth="0.8" fill="none" opacity="0.4" />
+            <path d="M0,35 Q25,37 50,35 T100,35" stroke="#6B5D4F" strokeWidth="0.6" fill="none" opacity="0.5" />
+            <path d="M0,50 Q25,48 50,50 T100,50" stroke="#8B7355" strokeWidth="1" fill="none" opacity="0.4" />
+            <path d="M0,65 Q25,67 50,65 T100,65" stroke="#6B5D4F" strokeWidth="0.7" fill="none" opacity="0.5" />
+            <path d="M0,75 Q25,73 50,75 T100,75" stroke="#8B7355" strokeWidth="0.5" fill="none" opacity="0.3" />
+            <path d="M0,90 Q25,92 50,90 T100,90" stroke="#8B7355" strokeWidth="0.6" fill="none" opacity="0.4" />
+            {/* Knots and imperfections */}
+            <ellipse cx="30" cy="40" rx="8" ry="12" fill="#8B7355" opacity="0.2" />
+            <ellipse cx="70" cy="70" rx="6" ry="10" fill="#6B5D4F" opacity="0.15" />
+          </pattern>
+
+          <pattern id="woodGrain2" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+            <rect width="100" height="100" fill="url(#woodBase2)" />
+            {/* Grain lines with different pattern */}
+            <path d="M0,15 Q25,13 50,15 T100,15" stroke="#A0826D" strokeWidth="0.6" fill="none" opacity="0.3" />
+            <path d="M0,30 Q25,32 50,30 T100,30" stroke="#A0826D" strokeWidth="0.7" fill="none" opacity="0.4" />
+            <path d="M0,45 Q25,43 50,45 T100,45" stroke="#8B7355" strokeWidth="0.9" fill="none" opacity="0.5" />
+            <path d="M0,55 Q25,57 50,55 T100,55" stroke="#A0826D" strokeWidth="0.5" fill="none" opacity="0.3" />
+            <path d="M0,70 Q25,68 50,70 T100,70" stroke="#8B7355" strokeWidth="0.8" fill="none" opacity="0.4" />
+            <path d="M0,85 Q25,87 50,85 T100,85" stroke="#A0826D" strokeWidth="0.6" fill="none" opacity="0.3" />
+            {/* Knots */}
+            <ellipse cx="45" cy="60" rx="7" ry="11" fill="#8B7355" opacity="0.18" />
+            <ellipse cx="80" cy="25" rx="5" ry="9" fill="#6B5D4F" opacity="0.12" />
+          </pattern>
+
           <filter id="hexShadow">
             <feDropShadow dx="0" dy="1" stdDeviation="1" floodOpacity="0.3" />
           </filter>
@@ -415,13 +449,32 @@ const HexagonCalculator: React.FC = () => {
           margin: '0 auto'
         }}
       >
-        {/* Define gradient */}
+        {/* Define woodgrain pattern for single hexagon */}
         <defs>
-          <linearGradient id="singleHexGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#8B4513" />
-            <stop offset="50%" stopColor="#A0522D" />
-            <stop offset="100%" stopColor="#654321" />
+          {/* Base wood color */}
+          <linearGradient id="singleWoodBase" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style={{ stopColor: '#C19A6B', stopOpacity: 1 }} />
+            <stop offset="30%" style={{ stopColor: '#D2B48C', stopOpacity: 1 }} />
+            <stop offset="60%" style={{ stopColor: '#C19A6B', stopOpacity: 1 }} />
+            <stop offset="100%" style={{ stopColor: '#A0826D', stopOpacity: 1 }} />
           </linearGradient>
+
+          {/* Woodgrain texture */}
+          <pattern id="singleWoodGrain" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+            <rect width="100" height="100" fill="url(#singleWoodBase)" />
+            {/* Grain lines */}
+            <path d="M0,10 Q25,8 50,10 T100,10" stroke="#8B7355" strokeWidth="0.5" fill="none" opacity="0.3" />
+            <path d="M0,25 Q25,23 50,25 T100,25" stroke="#8B7355" strokeWidth="0.8" fill="none" opacity="0.4" />
+            <path d="M0,35 Q25,37 50,35 T100,35" stroke="#6B5D4F" strokeWidth="0.6" fill="none" opacity="0.5" />
+            <path d="M0,50 Q25,48 50,50 T100,50" stroke="#8B7355" strokeWidth="1" fill="none" opacity="0.4" />
+            <path d="M0,65 Q25,67 50,65 T100,65" stroke="#6B5D4F" strokeWidth="0.7" fill="none" opacity="0.5" />
+            <path d="M0,75 Q25,73 50,75 T100,75" stroke="#8B7355" strokeWidth="0.5" fill="none" opacity="0.3" />
+            <path d="M0,90 Q25,92 50,90 T100,90" stroke="#8B7355" strokeWidth="0.6" fill="none" opacity="0.4" />
+            {/* Knots and imperfections */}
+            <ellipse cx="30" cy="40" rx="8" ry="12" fill="#8B7355" opacity="0.2" />
+            <ellipse cx="70" cy="70" rx="6" ry="10" fill="#6B5D4F" opacity="0.15" />
+          </pattern>
+
           <filter id="singleHexShadow">
             <feDropShadow dx="2" dy="2" stdDeviation="3" floodOpacity="0.3" />
           </filter>
@@ -430,8 +483,8 @@ const HexagonCalculator: React.FC = () => {
         {/* Draw hexagon */}
         <polygon
           points={generateHexagonPoints(cx, cy, scaledEdge)}
-          fill="url(#singleHexGradient)"
-          stroke="#654321"
+          fill="url(#singleWoodGrain)"
+          stroke="#8B7355"
           strokeWidth="2"
           filter="url(#singleHexShadow)"
         />
