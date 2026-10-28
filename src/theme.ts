@@ -16,6 +16,7 @@ export const palette = {
     text: '#242424', // --color-text (neutral-950)
     textMuted: '#6E6E6E', // --color-text-muted (neutral-600)
     border: '#D9D9D9', // --color-border (neutral-200)
+    danger: '#DC2626', // --color-danger (danger-600)
   },
   dark: {
     link: '#BAFF39', // primary-100
@@ -24,6 +25,7 @@ export const palette = {
     text: '#F7F7F7', // neutral-50
     textMuted: '#C1C1C1', // neutral-300
     border: '#484848', // neutral-800
+    danger: '#FA7064', // danger-400
   },
 };
 
@@ -43,6 +45,8 @@ export function themeConfig(mode: Mode): ThemeConfig {
       // antd's "primary" drives links, focus and selected states: the link role.
       colorPrimary: c.link,
       colorLink: c.link,
+      // The danger role, so solid danger buttons and error text pass contrast in both modes.
+      colorError: c.danger,
       colorTextLightSolid: mode === 'dark' ? lime.onFill : '#FFFFFF',
       colorBgLayout: c.bg,
       colorBgContainer: c.bg,
@@ -56,7 +60,7 @@ export function themeConfig(mode: Mode): ThemeConfig {
       borderRadius: 10, // --radius-md
       borderRadiusLG: 16, // --radius-lg
       borderRadiusSM: 6, // --radius-sm
-      fontFamily: '"Inter Variable", Inter, system-ui, sans-serif',
+      fontFamily: "Inter, system-ui, -apple-system, 'Segoe UI', sans-serif",
     },
     components: {
       // Primary buttons are a lime fill with dark text, and every button is a pill.
@@ -70,6 +74,12 @@ export function themeConfig(mode: Mode): ThemeConfig {
         defaultHoverBorderColor: c.link,
         defaultActiveColor: c.link,
         defaultActiveBorderColor: c.link,
+        // Pin solid danger buttons to the danger role: antd's dark algorithm would shift colorError
+        // and drop the text contrast below 4.5:1.
+        colorError: c.danger,
+        colorErrorHover: c.danger,
+        colorErrorActive: c.danger,
+        dangerColor: mode === 'dark' ? lime.onFill : '#FFFFFF',
         primaryShadow: 'none',
         borderRadius: 9999,
         borderRadiusLG: 9999,

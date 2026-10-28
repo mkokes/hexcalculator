@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { THEME_KEY, type Mode, type ThemePref } from './theme';
+import { THEME_KEY, palette, type Mode, type ThemePref } from './theme';
 
 function usePrefersDark() {
   const query = '(prefers-color-scheme: dark)';
@@ -30,6 +30,8 @@ export function useThemeMode() {
 
   useEffect(() => {
     document.documentElement.dataset.theme = mode;
+    // Browser chrome (mobile address bar, installed-app title bar) follows the chosen mode.
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', palette[mode].bg);
   }, [mode]);
 
   function setPref(next: ThemePref) {

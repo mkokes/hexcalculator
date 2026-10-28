@@ -13,7 +13,7 @@ export default defineConfig({
         name: 'Hexagon Tabletop Calculator',
         short_name: 'HexCalc',
         description: 'Calculate hexagon patterns and epoxy requirements for tabletops',
-        theme_color: '#242424',
+        theme_color: '#ffffff',
         background_color: '#ffffff',
         display: 'standalone',
         icons: [
