@@ -6,9 +6,22 @@
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon-180x180.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#ffffff" />
+    <meta name="theme-color" content="#FFFFFF" />
     <meta name="description" content="Calculate hexagon patterns and epoxy requirements for tabletops" />
     <title>Hexagon Tabletop Calculator</title>
+    <script>
+      // Apply the saved or system theme before first paint (key matches THEME_KEY in src/theme.ts).
+      try {
+        var t = localStorage.getItem('hexcalc_theme');
+        if (t !== 'light' && t !== 'dark') {
+          t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        document.documentElement.dataset.theme = t;
+        // Browser chrome follows the chosen mode; useThemeMode keeps it in step afterwards.
+        document.querySelector('meta[name="theme-color"]').content =
+          t === 'dark' ? '#242424' : '#FFFFFF';
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <div id="root"></div>
