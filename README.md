@@ -13,6 +13,7 @@ A React-based web application for calculating hexagon tile patterns and epoxy re
 - �💧 **Epoxy Calculator**: Calculates the volume of epoxy needed to fill gaps
 - ⚙️ **Customizable Parameters**: Adjust hexagon size, gap width, and depth
 - 💾 **Persistent Settings**: All inputs are automatically saved to localStorage and restored on page reload
+- 📱 **Installable PWA**: Install to your home screen or desktop and use it offline
 
 ## Tech Stack
 
@@ -62,6 +63,7 @@ yarn preview
 | `yarn build` | Build optimized production bundle |
 | `yarn preview` | Preview production build locally |
 | `yarn lint` | Run ESLint to check code quality |
+| `yarn generate-pwa-assets` | Regenerate PWA icons from `public/favicon.svg` |
 
 ## Usage
 
