@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="wood" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#D2B48C"/>
+      <stop offset="0.3" stop-color="#DEB887"/>
+      <stop offset="0.6" stop-color="#C19A6B"/>
+      <stop offset="1" stop-color="#A0826D"/>
+    </linearGradient>
+    <clipPath id="hex">
+      <polygon points="256,36 446.5,146 446.5,366 256,476 65.5,366 65.5,146"/>
+    </clipPath>
+  </defs>
+  <polygon points="256,36 446.5,146 446.5,366 256,476 65.5,366 65.5,146" fill="url(#wood)"/>
+  <g clip-path="url(#hex)" fill="none" stroke="#8B7355" stroke-linecap="round">
+    <path d="M40,130 Q150,118 256,130 T472,130" stroke-width="5" opacity="0.45"/>
+    <path d="M40,200 Q150,212 256,200 T472,200" stroke-width="7" opacity="0.5"/>
+    <path d="M40,270 Q150,258 256,270 T472,270" stroke-width="6" opacity="0.45"/>
+    <path d="M40,340 Q150,352 256,340 T472,340" stroke-width="8" opacity="0.5"/>
+    <path d="M40,410 Q150,398 256,410 T472,410" stroke-width="5" opacity="0.45"/>
+  </g>
+  <polygon points="256,36 446.5,146 446.5,366 256,476 65.5,366 65.5,146" fill="none" stroke="#6B5D4F" stroke-width="14" stroke-linejoin="round"/>
+</svg>
