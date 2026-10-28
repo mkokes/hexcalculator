@@ -22,7 +22,17 @@ A React-based web application for calculating hexagon tile patterns and epoxy re
 - **Vite 7.3.0** - Fast build tool and dev server
 - **Ant Design 6.1.1** - Comprehensive React UI library
 - **Ant Design Icons** - Icon library
+- **Tailwind CSS 4** - Utility CSS and the design tokens
+- **[mk-styleguide](https://github.com/mkokes/mk-styleguide)** - Shared design system (lime and greys, Poppins and Inter, light/dark modes), vendored in `styleguide/`
 - **ESLint** - Code linting
+
+## Styling
+
+The app follows the shared mk-styleguide design system. Read [styleguide/STYLEGUIDE.md](styleguide/STYLEGUIDE.md) before changing styles.
+
+- **Tokens:** `styleguide/tailwind.css` is a Tailwind v4 entry that defines every token. `src/index.css` imports it, and CSS uses the role variables (`--color-bg`, `--color-text`, `--color-link`...), which follow `<html data-theme>`.
+- **antd:** `src/theme.ts` mirrors the tokens as hex, because antd can't read CSS variables. Keep the two in step.
+- **Diagrams:** measurement annotations use the status roles. Danger is the target and edge, info is the pattern boundary and width, and success is the height. The wood-grain fills are content and stay as they are.
 
 ## Prerequisites
 
@@ -88,8 +98,12 @@ All settings are automatically saved to your browser's localStorage and will be 
 hexcalculator/
 ├── src/
 │   ├── App.tsx          # Main calculator component with Ant Design Layout
+│   ├── Root.tsx         # Theme provider (antd ConfigProvider + light/system/dark preference)
+│   ├── theme.ts         # antd theme: hex mirror of the mk-styleguide tokens
+│   ├── useThemeMode.ts  # Light/system/dark preference, stored in localStorage
 │   ├── main.tsx         # Application entry point
-│   └── index.css        # Global styles and animations
+│   └── index.css        # Tokens import, global styles and diagram colours
+├── styleguide/          # Vendored mk-styleguide (tailwind.css, STYLEGUIDE.md); don't edit here
 ├── dist/                # Production build output
 ├── .github/
 │   └── workflows/

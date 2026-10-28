@@ -1,84 +1,129 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/*
+ * mk-styleguide tokens and Tailwind v4 (styleguide/tailwind.css imports tailwindcss and defines
+ * every token as a theme variable). Style with the role variables (--color-bg, --color-text,
+ * --color-link...): they follow <html data-theme>. src/theme.ts mirrors them for antd.
+ */
+@import '../styleguide/tailwind.css';
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
   color-scheme: light;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+:root[data-theme='dark'] {
+  color-scheme: dark;
+}
+
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
 }
 
 #root {
   width: 100%;
 }
 
-/* Custom animations */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* Poppins for headings, Inter for everything else. */
+h1,
+h2,
+h3,
+h4,
+.ant-typography:is(h1, h2, h3, h4) {
+  font-family: var(--font-heading);
 }
 
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+::selection {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
 }
 
-@keyframes shimmer {
-  0% {
-    background-position: -1000px 0;
-  }
-  100% {
-    background-position: 1000px 0;
-  }
+.app-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  height: auto;
+  padding: 24px clamp(16px, 4vw, 50px);
+  line-height: 1.5;
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
 }
 
-/* Apply animations to elements */
-.animate-fade-in-up {
-  animation: fadeInUp 0.6s ease-out forwards;
+.app-content {
+  padding: 48px clamp(12px, 3vw, 24px);
+  background: var(--color-bg);
 }
 
-.animate-scale-in {
-  animation: scaleIn 0.4s ease-out forwards;
+/* Diagrams. Measurement colours use the status roles so they adapt to dark mode:
+   danger = target size and edge, info = pattern boundary and width, success = height. */
+.diagram {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+.diagram-grid {
+  stroke: var(--color-border);
+}
+.diagram-label {
+  font-family: var(--font-body);
+  font-weight: 700;
+}
+/* Halo behind labels so they stay legible over the hexagons. */
+.diagram-halo {
+  stroke: var(--color-surface);
+  fill: var(--color-surface);
+}
+.stroke-danger {
+  stroke: var(--color-danger);
+}
+.fill-danger {
+  fill: var(--color-danger);
+}
+.stroke-info {
+  stroke: var(--color-info);
+}
+.fill-info {
+  fill: var(--color-info);
+}
+.stroke-success {
+  stroke: var(--color-success);
+}
+.fill-success {
+  fill: var(--color-success);
 }
 
-/* Stagger animation delays for cards */
-.animate-delay-100 {
-  animation-delay: 0.1s;
+.legend {
+  margin-bottom: 16px;
+  padding: 12px;
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
 }
-
-.animate-delay-200 {
-  animation-delay: 0.2s;
+.legend-swatch {
+  width: 20px;
+  height: 3px;
 }
-
-.animate-delay-300 {
-  animation-delay: 0.3s;
+.legend-swatch.is-dashed {
+  height: 0;
+  border-top: 3px dashed var(--color-danger);
 }
-
-.animate-delay-400 {
-  animation-delay: 0.4s;
+.swatch-danger {
+  background: var(--color-danger);
+}
+.swatch-info {
+  background: var(--color-info);
+}
+.swatch-success {
+  background: var(--color-success);
 }

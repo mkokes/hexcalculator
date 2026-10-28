@@ -9,13 +9,15 @@ import {
   Typography,
   Segmented,
   Divider,
-  Layout
+  Layout,
 } from 'antd';
+import { DesktopOutlined, MoonOutlined, SunOutlined } from '@ant-design/icons';
+import type { ThemePref } from './theme';
 import {
   ColumnWidthOutlined,
   AppstoreOutlined,
   BgColorsOutlined,
-  DashboardOutlined
+  DashboardOutlined,
 } from '@ant-design/icons';
 
 const { Header, Content } = Layout;
@@ -30,7 +32,12 @@ interface HexagonInputs {
   depth: number;
 }
 
-const HexagonCalculator: React.FC = () => {
+interface Props {
+  themePref: ThemePref;
+  onThemePrefChange: (pref: ThemePref) => void;
+}
+
+const HexagonCalculator: React.FC<Props> = ({ themePref, onThemePrefChange }) => {
   // Load initial state from localStorage or use defaults
   const loadFromLocalStorage = () => {
     try {
@@ -39,13 +46,15 @@ const HexagonCalculator: React.FC = () => {
 
       return {
         unitSystem: (savedUnitSystem as UnitSystem) || 'imperial',
-        inputs: savedInputs ? JSON.parse(savedInputs) : {
-          targetWidth: 48,
-          targetHeight: 24,
-          edgeSize: 2,
-          gap: 0.125,
-          depth: 0.75,
-        }
+        inputs: savedInputs
+          ? JSON.parse(savedInputs)
+          : {
+              targetWidth: 48,
+              targetHeight: 24,
+              edgeSize: 2,
+              gap: 0.125,
+              depth: 0.75,
+            },
       };
     } catch (error) {
       console.error('Error loading from localStorage:', error);
@@ -57,7 +66,7 @@ const HexagonCalculator: React.FC = () => {
           edgeSize: 2,
           gap: 0.125,
           depth: 0.75,
-        }
+        },
       };
     }
   };
@@ -223,17 +232,7 @@ const HexagonCalculator: React.FC = () => {
     const rectY = offsetY + (scaledPatternHeight - rectScaledHeight) / 2;
 
     return (
-      <svg
-        width={svgWidth}
-        height={svgHeight}
-        style={{
-          border: '1px solid #d9d9d9',
-          borderRadius: 8,
-          background: '#fafafa',
-          display: 'block',
-          margin: '0 auto'
-        }}
-      >
+      <svg width={svgWidth} height={svgHeight} className="diagram">
         {/* Define woodgrain patterns and gradients */}
         <defs>
           {/* Base wood colors */}
@@ -251,27 +250,119 @@ const HexagonCalculator: React.FC = () => {
           </linearGradient>
 
           {/* Woodgrain texture pattern */}
-          <pattern id="woodGrain1" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+          <pattern
+            id="woodGrain1"
+            x="0"
+            y="0"
+            width="100"
+            height="100"
+            patternUnits="userSpaceOnUse"
+          >
             <rect width="100" height="100" fill="url(#woodBase1)" />
             {/* Grain lines */}
-            <path d="M0,10 Q25,8 50,10 T100,10" stroke="#8B7355" strokeWidth="0.5" fill="none" opacity="0.3" />
-            <path d="M0,25 Q25,23 50,25 T100,25" stroke="#8B7355" strokeWidth="0.8" fill="none" opacity="0.4" />
-            <path d="M0,35 Q25,37 50,35 T100,35" stroke="#6B5D4F" strokeWidth="0.6" fill="none" opacity="0.5" />
-            <path d="M0,50 Q25,48 50,50 T100,50" stroke="#8B7355" strokeWidth="1" fill="none" opacity="0.4" />
-            <path d="M0,65 Q25,67 50,65 T100,65" stroke="#6B5D4F" strokeWidth="0.7" fill="none" opacity="0.5" />
-            <path d="M0,75 Q25,73 50,75 T100,75" stroke="#8B7355" strokeWidth="0.5" fill="none" opacity="0.3" />
-            <path d="M0,90 Q25,92 50,90 T100,90" stroke="#8B7355" strokeWidth="0.6" fill="none" opacity="0.4" />
+            <path
+              d="M0,10 Q25,8 50,10 T100,10"
+              stroke="#8B7355"
+              strokeWidth="0.5"
+              fill="none"
+              opacity="0.3"
+            />
+            <path
+              d="M0,25 Q25,23 50,25 T100,25"
+              stroke="#8B7355"
+              strokeWidth="0.8"
+              fill="none"
+              opacity="0.4"
+            />
+            <path
+              d="M0,35 Q25,37 50,35 T100,35"
+              stroke="#6B5D4F"
+              strokeWidth="0.6"
+              fill="none"
+              opacity="0.5"
+            />
+            <path
+              d="M0,50 Q25,48 50,50 T100,50"
+              stroke="#8B7355"
+              strokeWidth="1"
+              fill="none"
+              opacity="0.4"
+            />
+            <path
+              d="M0,65 Q25,67 50,65 T100,65"
+              stroke="#6B5D4F"
+              strokeWidth="0.7"
+              fill="none"
+              opacity="0.5"
+            />
+            <path
+              d="M0,75 Q25,73 50,75 T100,75"
+              stroke="#8B7355"
+              strokeWidth="0.5"
+              fill="none"
+              opacity="0.3"
+            />
+            <path
+              d="M0,90 Q25,92 50,90 T100,90"
+              stroke="#8B7355"
+              strokeWidth="0.6"
+              fill="none"
+              opacity="0.4"
+            />
           </pattern>
 
-          <pattern id="woodGrain2" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+          <pattern
+            id="woodGrain2"
+            x="0"
+            y="0"
+            width="100"
+            height="100"
+            patternUnits="userSpaceOnUse"
+          >
             <rect width="100" height="100" fill="url(#woodBase2)" />
             {/* Grain lines with different pattern */}
-            <path d="M0,15 Q25,13 50,15 T100,15" stroke="#A0826D" strokeWidth="0.6" fill="none" opacity="0.3" />
-            <path d="M0,30 Q25,32 50,30 T100,30" stroke="#A0826D" strokeWidth="0.7" fill="none" opacity="0.4" />
-            <path d="M0,45 Q25,43 50,45 T100,45" stroke="#8B7355" strokeWidth="0.9" fill="none" opacity="0.5" />
-            <path d="M0,55 Q25,57 50,55 T100,55" stroke="#A0826D" strokeWidth="0.5" fill="none" opacity="0.3" />
-            <path d="M0,70 Q25,68 50,70 T100,70" stroke="#8B7355" strokeWidth="0.8" fill="none" opacity="0.4" />
-            <path d="M0,85 Q25,87 50,85 T100,85" stroke="#A0826D" strokeWidth="0.6" fill="none" opacity="0.3" />
+            <path
+              d="M0,15 Q25,13 50,15 T100,15"
+              stroke="#A0826D"
+              strokeWidth="0.6"
+              fill="none"
+              opacity="0.3"
+            />
+            <path
+              d="M0,30 Q25,32 50,30 T100,30"
+              stroke="#A0826D"
+              strokeWidth="0.7"
+              fill="none"
+              opacity="0.4"
+            />
+            <path
+              d="M0,45 Q25,43 50,45 T100,45"
+              stroke="#8B7355"
+              strokeWidth="0.9"
+              fill="none"
+              opacity="0.5"
+            />
+            <path
+              d="M0,55 Q25,57 50,55 T100,55"
+              stroke="#A0826D"
+              strokeWidth="0.5"
+              fill="none"
+              opacity="0.3"
+            />
+            <path
+              d="M0,70 Q25,68 50,70 T100,70"
+              stroke="#8B7355"
+              strokeWidth="0.8"
+              fill="none"
+              opacity="0.4"
+            />
+            <path
+              d="M0,85 Q25,87 50,85 T100,85"
+              stroke="#A0826D"
+              strokeWidth="0.6"
+              fill="none"
+              opacity="0.3"
+            />
           </pattern>
 
           <filter id="hexShadow">
@@ -282,7 +373,13 @@ const HexagonCalculator: React.FC = () => {
         {/* Background grid pattern */}
         <defs>
           <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
-            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#e5e7eb" strokeWidth="0.5" opacity="0.5" />
+            <path
+              d="M 20 0 L 0 0 0 20"
+              fill="none"
+              className="diagram-grid"
+              strokeWidth="0.5"
+              opacity="0.5"
+            />
           </pattern>
         </defs>
         <rect width={svgWidth} height={svgHeight} fill="url(#grid)" />
@@ -294,7 +391,7 @@ const HexagonCalculator: React.FC = () => {
           width={rectScaledWidth}
           height={rectScaledHeight}
           fill="none"
-          stroke="#ff4d4f"
+          className="stroke-danger"
           strokeWidth="3"
           strokeDasharray="8,4"
           opacity="0.8"
@@ -309,7 +406,7 @@ const HexagonCalculator: React.FC = () => {
           width={scaledPatternWidth}
           height={scaledPatternHeight}
           fill="none"
-          stroke="#1890ff"
+          className="stroke-info"
           strokeWidth="3"
           opacity="0.8"
         />
@@ -319,9 +416,8 @@ const HexagonCalculator: React.FC = () => {
           x={offsetX + scaledPatternWidth / 2}
           y={offsetY - 10}
           textAnchor="middle"
-          stroke="white"
+          className="diagram-label diagram-halo"
           strokeWidth="4"
-          fill="white"
           fontSize="14"
           fontWeight="bold"
         >
@@ -331,7 +427,7 @@ const HexagonCalculator: React.FC = () => {
           x={offsetX + scaledPatternWidth / 2}
           y={offsetY - 10}
           textAnchor="middle"
-          fill="#1890ff"
+          className="diagram-label fill-info"
           fontSize="14"
           fontWeight="bold"
         >
@@ -343,9 +439,8 @@ const HexagonCalculator: React.FC = () => {
           x={offsetX - 10}
           y={offsetY + scaledPatternHeight / 2}
           textAnchor="end"
-          stroke="white"
+          className="diagram-label diagram-halo"
           strokeWidth="4"
-          fill="white"
           fontSize="14"
           fontWeight="bold"
           dominantBaseline="middle"
@@ -356,7 +451,7 @@ const HexagonCalculator: React.FC = () => {
           x={offsetX - 10}
           y={offsetY + scaledPatternHeight / 2}
           textAnchor="end"
-          fill="#1890ff"
+          className="diagram-label fill-info"
           fontSize="14"
           fontWeight="bold"
           dominantBaseline="middle"
@@ -369,9 +464,8 @@ const HexagonCalculator: React.FC = () => {
           x={rectX + rectScaledWidth / 2}
           y={rectY - 5}
           textAnchor="middle"
-          stroke="white"
+          className="diagram-label diagram-halo"
           strokeWidth="4"
-          fill="white"
           fontSize="12"
           fontWeight="bold"
         >
@@ -381,7 +475,7 @@ const HexagonCalculator: React.FC = () => {
           x={rectX + rectScaledWidth / 2}
           y={rectY - 5}
           textAnchor="middle"
-          fill="#ff4d4f"
+          className="diagram-label fill-danger"
           fontSize="12"
           fontWeight="bold"
         >
@@ -432,17 +526,7 @@ const HexagonCalculator: React.FC = () => {
     const cy = svgHeight / 2;
 
     return (
-      <svg
-        width={svgWidth}
-        height={svgHeight}
-        style={{
-          border: '1px solid #d9d9d9',
-          borderRadius: 8,
-          background: '#fafafa',
-          display: 'block',
-          margin: '0 auto'
-        }}
-      >
+      <svg width={svgWidth} height={svgHeight} className="diagram">
         {/* Define woodgrain pattern for single hexagon */}
         <defs>
           {/* Base wood color */}
@@ -454,16 +538,65 @@ const HexagonCalculator: React.FC = () => {
           </linearGradient>
 
           {/* Woodgrain texture */}
-          <pattern id="singleWoodGrain" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+          <pattern
+            id="singleWoodGrain"
+            x="0"
+            y="0"
+            width="100"
+            height="100"
+            patternUnits="userSpaceOnUse"
+          >
             <rect width="100" height="100" fill="url(#singleWoodBase)" />
             {/* Grain lines */}
-            <path d="M0,10 Q25,8 50,10 T100,10" stroke="#8B7355" strokeWidth="0.5" fill="none" opacity="0.3" />
-            <path d="M0,25 Q25,23 50,25 T100,25" stroke="#8B7355" strokeWidth="0.8" fill="none" opacity="0.4" />
-            <path d="M0,35 Q25,37 50,35 T100,35" stroke="#6B5D4F" strokeWidth="0.6" fill="none" opacity="0.5" />
-            <path d="M0,50 Q25,48 50,50 T100,50" stroke="#8B7355" strokeWidth="1" fill="none" opacity="0.4" />
-            <path d="M0,65 Q25,67 50,65 T100,65" stroke="#6B5D4F" strokeWidth="0.7" fill="none" opacity="0.5" />
-            <path d="M0,75 Q25,73 50,75 T100,75" stroke="#8B7355" strokeWidth="0.5" fill="none" opacity="0.3" />
-            <path d="M0,90 Q25,92 50,90 T100,90" stroke="#8B7355" strokeWidth="0.6" fill="none" opacity="0.4" />
+            <path
+              d="M0,10 Q25,8 50,10 T100,10"
+              stroke="#8B7355"
+              strokeWidth="0.5"
+              fill="none"
+              opacity="0.3"
+            />
+            <path
+              d="M0,25 Q25,23 50,25 T100,25"
+              stroke="#8B7355"
+              strokeWidth="0.8"
+              fill="none"
+              opacity="0.4"
+            />
+            <path
+              d="M0,35 Q25,37 50,35 T100,35"
+              stroke="#6B5D4F"
+              strokeWidth="0.6"
+              fill="none"
+              opacity="0.5"
+            />
+            <path
+              d="M0,50 Q25,48 50,50 T100,50"
+              stroke="#8B7355"
+              strokeWidth="1"
+              fill="none"
+              opacity="0.4"
+            />
+            <path
+              d="M0,65 Q25,67 50,65 T100,65"
+              stroke="#6B5D4F"
+              strokeWidth="0.7"
+              fill="none"
+              opacity="0.5"
+            />
+            <path
+              d="M0,75 Q25,73 50,75 T100,75"
+              stroke="#8B7355"
+              strokeWidth="0.5"
+              fill="none"
+              opacity="0.3"
+            />
+            <path
+              d="M0,90 Q25,92 50,90 T100,90"
+              stroke="#8B7355"
+              strokeWidth="0.6"
+              fill="none"
+              opacity="0.4"
+            />
           </pattern>
 
           <filter id="singleHexShadow">
@@ -486,20 +619,33 @@ const HexagonCalculator: React.FC = () => {
           y1={cy + scaledHeight / 2 + 30}
           x2={cx + scaledWidth / 2}
           y2={cy + scaledHeight / 2 + 30}
-          stroke="#1890ff"
+          className="stroke-info"
           strokeWidth="2"
         />
-        <line x1={cx - scaledWidth / 2} y1={cy + scaledHeight / 2 + 25} x2={cx - scaledWidth / 2} y2={cy + scaledHeight / 2 + 35} stroke="#1890ff" strokeWidth="2" />
-        <line x1={cx + scaledWidth / 2} y1={cy + scaledHeight / 2 + 25} x2={cx + scaledWidth / 2} y2={cy + scaledHeight / 2 + 35} stroke="#1890ff" strokeWidth="2" />
+        <line
+          x1={cx - scaledWidth / 2}
+          y1={cy + scaledHeight / 2 + 25}
+          x2={cx - scaledWidth / 2}
+          y2={cy + scaledHeight / 2 + 35}
+          className="stroke-info"
+          strokeWidth="2"
+        />
+        <line
+          x1={cx + scaledWidth / 2}
+          y1={cy + scaledHeight / 2 + 25}
+          x2={cx + scaledWidth / 2}
+          y2={cy + scaledHeight / 2 + 35}
+          className="stroke-info"
+          strokeWidth="2"
+        />
 
         {/* Width label with white outline */}
         <text
           x={cx}
           y={cy + scaledHeight / 2 + 50}
           textAnchor="middle"
-          stroke="white"
+          className="diagram-label diagram-halo"
           strokeWidth="4"
-          fill="white"
           fontSize="14"
           fontWeight="bold"
         >
@@ -509,7 +655,7 @@ const HexagonCalculator: React.FC = () => {
           x={cx}
           y={cy + scaledHeight / 2 + 50}
           textAnchor="middle"
-          fill="#1890ff"
+          className="diagram-label fill-info"
           fontSize="14"
           fontWeight="bold"
         >
@@ -522,20 +668,33 @@ const HexagonCalculator: React.FC = () => {
           y1={cy - scaledHeight / 2}
           x2={cx - scaledWidth / 2 - 30}
           y2={cy + scaledHeight / 2}
-          stroke="#52c41a"
+          className="stroke-success"
           strokeWidth="2"
         />
-        <line x1={cx - scaledWidth / 2 - 35} y1={cy - scaledHeight / 2} x2={cx - scaledWidth / 2 - 25} y2={cy - scaledHeight / 2} stroke="#52c41a" strokeWidth="2" />
-        <line x1={cx - scaledWidth / 2 - 35} y1={cy + scaledHeight / 2} x2={cx - scaledWidth / 2 - 25} y2={cy + scaledHeight / 2} stroke="#52c41a" strokeWidth="2" />
+        <line
+          x1={cx - scaledWidth / 2 - 35}
+          y1={cy - scaledHeight / 2}
+          x2={cx - scaledWidth / 2 - 25}
+          y2={cy - scaledHeight / 2}
+          className="stroke-success"
+          strokeWidth="2"
+        />
+        <line
+          x1={cx - scaledWidth / 2 - 35}
+          y1={cy + scaledHeight / 2}
+          x2={cx - scaledWidth / 2 - 25}
+          y2={cy + scaledHeight / 2}
+          className="stroke-success"
+          strokeWidth="2"
+        />
 
         {/* Height label with white outline - text on right side of line */}
         <text
           x={cx - scaledWidth / 2 - 10}
           y={cy}
           textAnchor="start"
-          stroke="white"
+          className="diagram-label diagram-halo"
           strokeWidth="4"
-          fill="white"
           fontSize="14"
           fontWeight="bold"
           dominantBaseline="middle"
@@ -546,7 +705,7 @@ const HexagonCalculator: React.FC = () => {
           x={cx - scaledWidth / 2 - 10}
           y={cy}
           textAnchor="start"
-          fill="#52c41a"
+          className="diagram-label fill-success"
           fontSize="14"
           fontWeight="bold"
           dominantBaseline="middle"
@@ -558,30 +717,29 @@ const HexagonCalculator: React.FC = () => {
         <line
           x1={cx}
           y1={cy - scaledEdge}
-          x2={cx + scaledEdge * Math.sqrt(3) / 2}
+          x2={cx + (scaledEdge * Math.sqrt(3)) / 2}
           y2={cy - scaledEdge / 2}
-          stroke="#ff4d4f"
+          className="stroke-danger"
           strokeWidth="3"
         />
 
         {/* Edge label with white outline */}
         <text
-          x={cx + scaledEdge * Math.sqrt(3) / 4}
+          x={cx + (scaledEdge * Math.sqrt(3)) / 4}
           y={cy - scaledEdge * 0.75 - 10}
           textAnchor="middle"
-          stroke="white"
+          className="diagram-label diagram-halo"
           strokeWidth="4"
-          fill="white"
           fontSize="14"
           fontWeight="bold"
         >
           Edge: {s.toFixed(2)} {unitLabel}
         </text>
         <text
-          x={cx + scaledEdge * Math.sqrt(3) / 4}
+          x={cx + (scaledEdge * Math.sqrt(3)) / 4}
           y={cy - scaledEdge * 0.75 - 10}
           textAnchor="middle"
-          fill="#ff4d4f"
+          className="diagram-label fill-danger"
           fontSize="14"
           fontWeight="bold"
         >
@@ -595,209 +753,243 @@ const HexagonCalculator: React.FC = () => {
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
-      <Header style={{
-        background: '#fff',
-        padding: '24px 50px',
-        boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-        height: 'auto'
-      }}>
-        <Space orientation="vertical" size="small" style={{ width: '100%' }}>
+      <Header className="app-header">
+        <Space orientation="vertical" size="small">
           <Title level={2} style={{ margin: 0 }}>
             <AppstoreOutlined /> Hexagon Tabletop Calculator
           </Title>
-          <Text type="secondary">Design your perfect hexagonal pattern for woodworking projects</Text>
+          <Text type="secondary">
+            Design your perfect hexagonal pattern for woodworking projects
+          </Text>
         </Space>
+        <Segmented<ThemePref>
+          aria-label="Color theme"
+          value={themePref}
+          onChange={onThemePrefChange}
+          options={[
+            { value: 'light', icon: <SunOutlined />, title: 'Light' },
+            { value: 'system', icon: <DesktopOutlined />, title: 'System' },
+            { value: 'dark', icon: <MoonOutlined />, title: 'Dark' },
+          ]}
+        />
       </Header>
 
-      <Content style={{ padding: '48px 24px', background: '#f0f2f5' }}>
+      <Content className="app-content">
         <div style={{ maxWidth: 1400, margin: '0 auto' }}>
           <Row gutter={[24, 24]}>
-          {/* Left Column - Inputs */}
-          <Col xs={24} lg={8}>
-            <Space orientation="vertical" size="large" style={{ width: '100%' }}>
-              {/* Settings Card */}
-              <Card title={<><ColumnWidthOutlined /> Settings</>} variant="borderless">
-                <Space orientation="vertical" size="middle" style={{ width: '100%' }}>
-                  <div>
-                    <Text strong>Unit System</Text>
-                    <Segmented
-                      options={[
-                        { label: 'Imperial (in)', value: 'imperial' },
-                        { label: 'Metric (cm)', value: 'metric' }
-                      ]}
-                      value={unitSystem}
-                      onChange={(value) => setUnitSystem(value as UnitSystem)}
-                      block
-                      style={{ marginTop: 8 }}
-                    />
-                  </div>
-                </Space>
-              </Card>
-
-              {/* Dimensions Card */}
-              <Card title={<><DashboardOutlined /> Dimensions</>} variant="borderless">
-                <Space orientation="vertical" size="middle" style={{ width: '100%' }}>
-                  <div>
-                    <Text strong>Target Width ({unitLabel})</Text>
-                    <InputNumber
-                      id="targetWidth"
-                      min={1}
-                      step={0.1}
-                      value={inputs.targetWidth}
-                      onChange={(value) => handleInputChange('targetWidth', String(value || 0))}
-                      style={{ width: '100%', marginTop: 8 }}
-                      size="large"
-                    />
-                  </div>
-
-                  <div>
-                    <Text strong>Target Height ({unitLabel})</Text>
-                    <InputNumber
-                      id="targetHeight"
-                      min={1}
-                      step={0.1}
-                      value={inputs.targetHeight}
-                      onChange={(value) => handleInputChange('targetHeight', String(value || 0))}
-                      style={{ width: '100%', marginTop: 8 }}
-                      size="large"
-                    />
-                  </div>
-
-                  <Divider />
-
-                  <div>
-                    <Text strong>Hexagon Edge Size ({unitLabel})</Text>
-                    <InputNumber
-                      id="edgeSize"
-                      min={0.1}
-                      step={0.1}
-                      value={inputs.edgeSize}
-                      onChange={(value) => handleInputChange('edgeSize', String(value || 0))}
-                      style={{ width: '100%', marginTop: 8 }}
-                      size="large"
-                    />
-                  </div>
-
-                  <div>
-                    <Text strong>Gap Between Hexagons ({unitLabel})</Text>
-                    <InputNumber
-                      id="gap"
-                      min={0}
-                      step={0.01}
-                      value={inputs.gap}
-                      onChange={(value) => handleInputChange('gap', String(value || 0))}
-                      style={{ width: '100%', marginTop: 8 }}
-                      size="large"
-                    />
-                  </div>
-
-                  <div>
-                    <Text strong>Depth ({unitLabel})</Text>
-                    <InputNumber
-                      id="depth"
-                      min={0.1}
-                      step={0.1}
-                      value={inputs.depth}
-                      onChange={(value) => handleInputChange('depth', String(value || 0))}
-                      style={{ width: '100%', marginTop: 8 }}
-                      size="large"
-                    />
-                  </div>
-                </Space>
-              </Card>
-
-              {/* Hexagon Details Card */}
-              <Card
-                title={<><AppstoreOutlined /> Hexagon Details</>}
-                variant="borderless"
-              >
-                <div style={{ marginBottom: 16, padding: '12px', background: '#f5f5f5', borderRadius: 8 }}>
-                  <Space size="middle" wrap>
-                    <Space size="small">
-                      <div style={{ width: 20, height: 3, background: '#ff4d4f' }} />
-                      <Text>Edge Size</Text>
-                    </Space>
-                    <Space size="small">
-                      <div style={{ width: 20, height: 3, background: '#1890ff' }} />
-                      <Text>Width (point to point)</Text>
-                    </Space>
-                    <Space size="small">
-                      <div style={{ width: 20, height: 3, background: '#52c41a' }} />
-                      <Text>Height (flat to flat)</Text>
-                    </Space>
+            {/* Left Column - Inputs */}
+            <Col xs={24} lg={8}>
+              <Space orientation="vertical" size="large" style={{ width: '100%' }}>
+                {/* Settings Card */}
+                <Card
+                  title={
+                    <>
+                      <ColumnWidthOutlined /> Settings
+                    </>
+                  }
+                  variant="borderless"
+                >
+                  <Space orientation="vertical" size="middle" style={{ width: '100%' }}>
+                    <div>
+                      <Text strong>Unit System</Text>
+                      <Segmented
+                        options={[
+                          { label: 'Imperial (in)', value: 'imperial' },
+                          { label: 'Metric (cm)', value: 'metric' },
+                        ]}
+                        value={unitSystem}
+                        onChange={(value) => setUnitSystem(value as UnitSystem)}
+                        block
+                        style={{ marginTop: 8 }}
+                      />
+                    </div>
                   </Space>
-                </div>
-                {renderSingleHexagon()}
-              </Card>
-            </Space>
-          </Col>
+                </Card>
 
-          {/* Right Column - Diagram and Results */}
-          <Col xs={24} lg={16}>
-            <Space orientation="vertical" size="large" style={{ width: '100%' }}>
-              {/* Pattern Preview Card */}
-              <Card
-                title={<><AppstoreOutlined /> Pattern Preview</>}
-                variant="borderless"
-              >
-                <div style={{ marginBottom: 16, padding: '12px', background: '#f5f5f5', borderRadius: 8 }}>
-                  <Space size="middle">
-                    <Space size="small">
-                      <div style={{ width: 20, height: 3, background: '#ff4d4f', borderStyle: 'dashed', border: '1px dashed #ff4d4f' }} />
-                      <Text>Target dimensions</Text>
-                    </Space>
-                    <Space size="small">
-                      <div style={{ width: 20, height: 3, background: '#1890ff' }} />
-                      <Text>Pattern boundary</Text>
-                    </Space>
+                {/* Dimensions Card */}
+                <Card
+                  title={
+                    <>
+                      <DashboardOutlined /> Dimensions
+                    </>
+                  }
+                  variant="borderless"
+                >
+                  <Space orientation="vertical" size="middle" style={{ width: '100%' }}>
+                    <div>
+                      <Text strong>Target Width ({unitLabel})</Text>
+                      <InputNumber
+                        id="targetWidth"
+                        min={1}
+                        step={0.1}
+                        value={inputs.targetWidth}
+                        onChange={(value) => handleInputChange('targetWidth', String(value || 0))}
+                        style={{ width: '100%', marginTop: 8 }}
+                        size="large"
+                      />
+                    </div>
+
+                    <div>
+                      <Text strong>Target Height ({unitLabel})</Text>
+                      <InputNumber
+                        id="targetHeight"
+                        min={1}
+                        step={0.1}
+                        value={inputs.targetHeight}
+                        onChange={(value) => handleInputChange('targetHeight', String(value || 0))}
+                        style={{ width: '100%', marginTop: 8 }}
+                        size="large"
+                      />
+                    </div>
+
+                    <Divider />
+
+                    <div>
+                      <Text strong>Hexagon Edge Size ({unitLabel})</Text>
+                      <InputNumber
+                        id="edgeSize"
+                        min={0.1}
+                        step={0.1}
+                        value={inputs.edgeSize}
+                        onChange={(value) => handleInputChange('edgeSize', String(value || 0))}
+                        style={{ width: '100%', marginTop: 8 }}
+                        size="large"
+                      />
+                    </div>
+
+                    <div>
+                      <Text strong>Gap Between Hexagons ({unitLabel})</Text>
+                      <InputNumber
+                        id="gap"
+                        min={0}
+                        step={0.01}
+                        value={inputs.gap}
+                        onChange={(value) => handleInputChange('gap', String(value || 0))}
+                        style={{ width: '100%', marginTop: 8 }}
+                        size="large"
+                      />
+                    </div>
+
+                    <div>
+                      <Text strong>Depth ({unitLabel})</Text>
+                      <InputNumber
+                        id="depth"
+                        min={0.1}
+                        step={0.1}
+                        value={inputs.depth}
+                        onChange={(value) => handleInputChange('depth', String(value || 0))}
+                        style={{ width: '100%', marginTop: 8 }}
+                        size="large"
+                      />
+                    </div>
                   </Space>
-                </div>
-                {renderDiagram()}
-              </Card>
+                </Card>
 
-              {/* Results Card */}
-              <Card title={<><BgColorsOutlined /> Results</>} variant="borderless">
-                <Row gutter={[16, 16]}>
-                  <Col xs={12} sm={12}>
-                    <Statistic
-                      title="Actual Pattern Size"
-                      value={`${calculations.patternWidth.toFixed(2)} × ${calculations.patternHeight.toFixed(2)}`}
-                      suffix={unitLabel}
-                      styles={{ content: { color: '#52c41a' } }}
-                    />
-                  </Col>
-                  <Col xs={12} sm={12}>
-                    <Statistic
-                      title="Hexagon Layout"
-                      value={`${calculations.numColumns} × ${calculations.numRows}`}
-                      suffix="cols × rows"
-                      styles={{ content: { color: '#722ed1' } }}
-                    />
-                  </Col>
-                  <Col xs={12} sm={12}>
-                    <Statistic
-                      title="Total Hexagons"
-                      value={calculations.totalHexagons}
-                      styles={{ content: { color: '#fa8c16', fontSize: 32 } }}
-                    />
-                  </Col>
-                  <Col xs={12} sm={12}>
-                    <Statistic
-                      title="Epoxy Required"
-                      value={calculations.epoxyVolumeSmall.toFixed(2)}
-                      suffix={volumeLabel}
-                      styles={{ content: { color: '#1890ff' } }}
-                      prefix={<BgColorsOutlined />}
-                    />
-                    <Text type="secondary" style={{ fontSize: 12 }}>
-                      ({calculations.epoxyVolumeLarge.toFixed(3)} {volumeLabelLarge})
-                    </Text>
-                  </Col>
-                </Row>
-              </Card>
-            </Space>
-          </Col>
-        </Row>
+                {/* Hexagon Details Card */}
+                <Card
+                  title={
+                    <>
+                      <AppstoreOutlined /> Hexagon Details
+                    </>
+                  }
+                  variant="borderless"
+                >
+                  <div className="legend">
+                    <Space size="middle" wrap>
+                      <Space size="small">
+                        <div className="legend-swatch swatch-danger" />
+                        <Text>Edge Size</Text>
+                      </Space>
+                      <Space size="small">
+                        <div className="legend-swatch swatch-info" />
+                        <Text>Width (point to point)</Text>
+                      </Space>
+                      <Space size="small">
+                        <div className="legend-swatch swatch-success" />
+                        <Text>Height (flat to flat)</Text>
+                      </Space>
+                    </Space>
+                  </div>
+                  {renderSingleHexagon()}
+                </Card>
+              </Space>
+            </Col>
+
+            {/* Right Column - Diagram and Results */}
+            <Col xs={24} lg={16}>
+              <Space orientation="vertical" size="large" style={{ width: '100%' }}>
+                {/* Pattern Preview Card */}
+                <Card
+                  title={
+                    <>
+                      <AppstoreOutlined /> Pattern Preview
+                    </>
+                  }
+                  variant="borderless"
+                >
+                  <div className="legend">
+                    <Space size="middle">
+                      <Space size="small">
+                        <div className="legend-swatch is-dashed" />
+                        <Text>Target dimensions</Text>
+                      </Space>
+                      <Space size="small">
+                        <div className="legend-swatch swatch-info" />
+                        <Text>Pattern boundary</Text>
+                      </Space>
+                    </Space>
+                  </div>
+                  {renderDiagram()}
+                </Card>
+
+                {/* Results Card */}
+                <Card
+                  title={
+                    <>
+                      <BgColorsOutlined /> Results
+                    </>
+                  }
+                  variant="borderless"
+                >
+                  <Row gutter={[16, 16]}>
+                    <Col xs={12} sm={12}>
+                      <Statistic
+                        title="Actual Pattern Size"
+                        value={`${calculations.patternWidth.toFixed(2)} × ${calculations.patternHeight.toFixed(2)}`}
+                        suffix={unitLabel}
+                        styles={{ content: { color: 'var(--color-info)' } }}
+                      />
+                    </Col>
+                    <Col xs={12} sm={12}>
+                      <Statistic
+                        title="Hexagon Layout"
+                        value={`${calculations.numColumns} × ${calculations.numRows}`}
+                        suffix="cols × rows"
+                      />
+                    </Col>
+                    <Col xs={12} sm={12}>
+                      <Statistic
+                        title="Total Hexagons"
+                        value={calculations.totalHexagons}
+                        styles={{ content: { fontSize: 32 } }}
+                      />
+                    </Col>
+                    <Col xs={12} sm={12}>
+                      <Statistic
+                        title="Epoxy Required"
+                        value={calculations.epoxyVolumeSmall.toFixed(2)}
+                        suffix={volumeLabel}
+                        prefix={<BgColorsOutlined />}
+                      />
+                      <Text type="secondary" style={{ fontSize: 12 }}>
+                        ({calculations.epoxyVolumeLarge.toFixed(3)} {volumeLabelLarge})
+                      </Text>
+                    </Col>
+                  </Row>
+                </Card>
+              </Space>
+            </Col>
+          </Row>
         </div>
       </Content>
     </Layout>

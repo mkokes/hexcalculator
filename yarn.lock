@@ -1733,6 +1733,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@fontsource-variable/inter@npm:^5.3.0":
+  version: 5.3.0
+  resolution: "@fontsource-variable/inter@npm:5.3.0"
+  checksum: 10c0/46fbe41e8482a718f99634c8254346c6081d615415059be12e177224c903d688199125967825e75d4b8122668fd83f70880e11d4e02d08c20b503c65fe2a96d1
+  languageName: node
+  linkType: hard
+
+"@fontsource/poppins@npm:^5.3.0":
+  version: 5.3.0
+  resolution: "@fontsource/poppins@npm:5.3.0"
+  checksum: 10c0/869fe85c618645a84f4ff331fd61b3fd856a6df15a42fff21c311b599a81104541f7402feccb3446ad50ddd73cfea20bd9191e9cfa533a382ec68d9ba1093038
+  languageName: node
+  linkType: hard
+
 "@humanfs/core@npm:^0.19.1":
   version: 0.19.1
   resolution: "@humanfs/core@npm:0.19.1"
@@ -5261,6 +5275,8 @@ __metadata:
   dependencies:
     "@ant-design/icons": "npm:^6.1.0"
     "@eslint/js": "npm:^9.39.2"
+    "@fontsource-variable/inter": "npm:^5.3.0"
+    "@fontsource/poppins": "npm:^5.3.0"
     "@tailwindcss/postcss": "npm:^4.1.18"
     "@types/react": "npm:^19.2.7"
     "@types/react-dom": "npm:^19.2.3"
