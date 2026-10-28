@@ -146,7 +146,9 @@ The calculator arranges hexagons in a honeycomb pattern with offset rows, ensuri
 
 ## License
 
-ISC
+Copyright (C) 2025-2026 Marty Kokes
+
+Licensed under the GNU General Public License v3.0 or later. See [LICENSE](LICENSE).
 
 ## Contributing
 

@@ -22,7 +22,7 @@
     "epoxy"
   ],
   "author": "",
-  "license": "ISC",
+  "license": "GPL-3.0-or-later",
   "dependencies": {
     "@ant-design/icons": "^6.1.0",
     "antd": "^6.1.1",
