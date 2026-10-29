@@ -24,7 +24,7 @@ A React-based web application for calculating hexagon tile patterns and epoxy re
 - **Ant Design Icons** - Icon library
 - **Tailwind CSS 4** - Utility CSS and the design tokens
 - **[mk-styleguide](https://github.com/mkokes/mk-styleguide)** - Shared design system (lime and greys, Poppins and Inter, light/dark modes), vendored in `styleguide/`
-- **ESLint** - Code linting
+- **Oxlint** / **Oxfmt** - Linting and formatting
 
 ## Styling
 
@@ -67,13 +67,14 @@ yarn preview
 
 ## Available Scripts
 
-| Command | Description |
-|---------|-------------|
-| `yarn dev` | Start development server with hot reload at http://localhost:3000/hexcalculator/ |
-| `yarn build` | Build optimized production bundle |
-| `yarn preview` | Preview production build locally |
-| `yarn lint` | Run ESLint to check code quality |
-| `yarn generate-pwa-assets` | Regenerate PWA icons from `public/favicon.svg` |
+| Command                    | Description                                                                      |
+| -------------------------- | -------------------------------------------------------------------------------- |
+| `yarn dev`                 | Start development server with hot reload at http://localhost:3000/hexcalculator/ |
+| `yarn build`               | Build optimized production bundle                                                |
+| `yarn preview`             | Preview production build locally                                                 |
+| `yarn lint`                | Run oxlint to check code quality                                                 |
+| `yarn format`              | Format the codebase with oxfmt                                                   |
+| `yarn generate-pwa-assets` | Regenerate PWA icons from `public/favicon.svg`                                   |
 
 ## Usage
 
@@ -84,6 +85,7 @@ yarn preview
 5. **Set Depth**: Enter the depth for epoxy volume calculation
 
 The calculator will display:
+
 - **Pattern Preview**: Visual representation of the hexagon layout with dimension labels
 - **Hexagon Details**: Detailed view showing individual hexagon measurements (edge, width, height)
 - **Results**: Number of columns and rows needed, total hexagon count
@@ -134,7 +136,8 @@ yarn build
 ## Code Quality
 
 This project uses:
-- **ESLint** with TypeScript and React plugins for code quality
+
+- **Oxlint** with TypeScript and React plugins for code quality, and **Oxfmt** for formatting
 - **TypeScript** strict mode for type safety
 
 Run `yarn lint` before committing changes.
@@ -142,18 +145,23 @@ Run `yarn lint` before committing changes.
 ## Key Features Explained
 
 ### localStorage Persistence
+
 All user inputs (target dimensions, edge size, gap, depth, and unit system) are automatically saved to the browser's localStorage. This means your settings persist across page refreshes and browser sessions.
 
 ### Hexagon Geometry
+
 The calculator uses pointy-top hexagon orientation with the following relationships:
+
 - **Edge Size**: Length of one side of the hexagon
 - **Width** (point to point): √3 × edge size
 - **Height** (flat to flat): 2 × edge size
 
 ### Pattern Layout
+
 The calculator arranges hexagons in a honeycomb pattern with offset rows, ensuring efficient coverage of the target area. The actual pattern size may slightly exceed the target dimensions to ensure complete coverage.
 
 ### Visual Feedback
+
 - **Pattern Preview**: Shows the complete hexagon layout with color-coded dimension lines
 - **Hexagon Details**: Displays a single hexagon with labeled measurements for reference
 - **Real-time Updates**: All calculations and visualizations update instantly as you adjust parameters
@@ -171,4 +179,3 @@ Contributions are welcome! Please ensure all code passes linting checks before s
 ---
 
 Built with ❤️ for makers and woodworkers
-
