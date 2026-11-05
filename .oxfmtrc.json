@@ -1,0 +1,9 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "singleQuote": true,
+  "trailingComma": "es5",
+  "printWidth": 100,
+  "endOfLine": "lf",
+  "sortPackageJson": false,
+  "ignorePatterns": ["dist", "dev-dist", "coverage", "build", "yarn.lock", ".yarn", "styleguide/**"]
+}
