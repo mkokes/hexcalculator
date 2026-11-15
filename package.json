@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "packageManager": "yarn@4.5.3",
+  "packageManager": "yarn@4.18.1",
   "description": "Hexagon Tabletop Calculator - A tool for calculating hexagon patterns and epoxy requirements",
   "scripts": {
     "dev": "vite",
@@ -24,27 +24,30 @@
   "author": "",
   "license": "GPL-3.0-or-later",
   "dependencies": {
-    "@ant-design/icons": "^6.1.0",
+    "@ant-design/icons": "^6.3.4",
     "@fontsource/inter": "^5.3.0",
     "@fontsource/poppins": "^5.3.0",
-    "antd": "^6.1.1",
-    "lucide-react": "^0.562.0",
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3"
+    "antd": "^6.7.0",
+    "lucide-react": "^1.70.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.1.18",
-    "@types/react": "^19.2.7",
-    "@types/react-dom": "^19.2.3",
+    "@tailwindcss/postcss": "^4.3.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
     "@vite-pwa/assets-generator": "^2.0.0",
-    "@vitejs/plugin-react": "^5.1.2",
-    "autoprefixer": "^10.4.23",
-    "oxfmt": "^0.75.0",
-    "oxlint": "^1.90.0",
-    "postcss": "^8.5.6",
-    "tailwindcss": "^4.1.18",
+    "@vitejs/plugin-react": "^6.2.1",
+    "autoprefixer": "^10.6.2",
+    "oxfmt": "^0.77.0",
+    "oxlint": "^1.92.0",
+    "postcss": "^8.5.32",
+    "tailwindcss": "^4.3.5",
     "typescript": "^5.9.3",
-    "vite": "^7.3.0",
+    "vite": "^8.3.6",
     "vite-plugin-pwa": "^2.0.0"
+  },
+  "resolutions": {
+    "glob@npm:^11.0.1": "^14.0.6"
   }
 }
