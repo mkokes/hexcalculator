@@ -9,20 +9,22 @@ A React-based web application for calculating hexagon tile patterns and epoxy re
 - 🎯 **Pattern Calculation**: Automatically calculates the number of hexagons needed to cover a target area
 - 📐 **Precise Measurements**: Supports both metric (cm) and imperial (inches) units
 - 🎨 **Visual Preview**: Real-time SVG visualization of the hexagon pattern with dimension labels
-- � **Hexagon Details**: Detailed view of a single hexagon showing edge size, width, and height measurements
-- �💧 **Epoxy Calculator**: Calculates the volume of epoxy needed to fill gaps
+- 🔍 **Hexagon Details**: Detailed view of a single hexagon showing edge size, width, and height measurements
+- 💧 **Epoxy Calculator**: Calculates the volume of epoxy needed to fill gaps
 - ⚙️ **Customizable Parameters**: Adjust hexagon size, gap width, and depth
 - 💾 **Persistent Settings**: All inputs are automatically saved to localStorage and restored on page reload
 - 📱 **Installable PWA**: Install to your home screen or desktop and use it offline
 
 ## Tech Stack
 
-- **React 19.2.3** - UI framework
-- **TypeScript** - Type safety
-- **Vite 7.3.0** - Fast build tool and dev server
-- **Ant Design 6.1.1** - Comprehensive React UI library
-- **Ant Design Icons** - Icon library
-- **Tailwind CSS 4** - Utility CSS and the design tokens
+- **React 19** (`^19.3.1`) - UI framework
+- **TypeScript** (`^5.9.3`) - Type safety
+- **Vite 8** (`^8.3.6`) - Build tool and dev server
+- **Ant Design 6** (`^6.7.0`) - React UI library
+- **Ant Design Icons** (`^6.3.4`) + **Lucide React** (`^1.73.0`) - Icon libraries
+- **Tailwind CSS 4** (`^4.3.5`) - Utility CSS and design tokens
+- **`vite-plugin-pwa` 2** - Installable offline PWA (Workbox service worker)
+- **@fontsource/inter** & **@fontsource/poppins** - Self-hosted fonts
 - **[mk-styleguide](https://github.com/mkokes/mk-styleguide)** - Shared design system (lime and greys, Poppins and Inter, light/dark modes), vendored in `styleguide/`
 - **Oxlint** / **Oxfmt** - Linting and formatting
 
@@ -36,8 +38,8 @@ The app follows the shared mk-styleguide design system. Read [styleguide/STYLEGU
 
 ## Prerequisites
 
-- Node.js 18.18.0 or higher
-- Yarn 4.x (Berry)
+- Node.js 20 or higher (CI uses Node 20)
+- Yarn 4.x (Berry, via Corepack)
 
 ## Getting Started
 
@@ -70,10 +72,12 @@ yarn preview
 | Command                    | Description                                                                      |
 | -------------------------- | -------------------------------------------------------------------------------- |
 | `yarn dev`                 | Start development server with hot reload at http://localhost:3000/hexcalculator/ |
-| `yarn build`               | Build optimized production bundle                                                |
+| `yarn build`               | Typecheck (`tsc`) and build production bundle (`vite build`)                     |
 | `yarn preview`             | Preview production build locally                                                 |
 | `yarn lint`                | Run oxlint to check code quality                                                 |
+| `yarn lint:fix`            | Run oxlint with automatic fixes                                                  |
 | `yarn format`              | Format the codebase with oxfmt                                                   |
+| `yarn format:check`        | Check formatting with oxfmt without modifying files                              |
 | `yarn generate-pwa-assets` | Regenerate PWA icons from `public/favicon.svg`                                   |
 
 ## Usage
@@ -98,6 +102,7 @@ All settings are automatically saved to your browser's localStorage and will be 
 
 ```
 hexcalculator/
+├── public/              # Favicons and generated PWA icons
 ├── src/
 │   ├── App.tsx          # Main calculator component with Ant Design Layout
 │   ├── Root.tsx         # Theme provider (antd ConfigProvider + light/system/dark preference)
@@ -110,18 +115,25 @@ hexcalculator/
 ├── .github/
 │   └── workflows/
 │       └── deploy.yml   # GitHub Actions deployment workflow
+├── .oxfmtrc.json        # Oxfmt formatting configuration
+├── .oxlintrc.json       # Oxlint configuration
+├── .yarn/               # Yarn 4 Berry state & PnP artifacts (.pnp.cjs)
+├── postcss.config.js    # PostCSS + Tailwind CSS config
+├── pwa-assets.config.ts # PWA icon generation config
 ├── tsconfig.json        # TypeScript configuration
-├── vite.config.ts       # Vite configuration with GitHub Pages base path
+├── vite.config.ts       # Vite + VitePWA configuration with /hexcalculator/ base path
 └── package.json         # Project dependencies and scripts
 ```
 
 ## Deployment
 
-This project is automatically deployed to GitHub Pages using GitHub Actions:
+This project is deployed to GitHub Pages using GitHub Actions (`.github/workflows/deploy.yml`):
 
-1. **Automatic Deployment**: Every push to the `main` branch triggers a deployment
-2. **Build Process**: Vite builds the production bundle with base path `/hexcalculator/`
+1. **Automatic Deployment**: Pushes to `main` (or manual `workflow_dispatch`) run `yarn install --immutable` and `yarn build` on Node 20
+2. **Build Process**: Vite builds the production bundle with `base: '/hexcalculator/'`
 3. **GitHub Pages**: Deployed to https://mkokes.github.io/hexcalculator/
+
+Note: CI runs the build only, so run `yarn lint` and `yarn format:check` locally before committing.
 
 ### Manual Deployment
 
