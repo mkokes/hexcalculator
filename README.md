@@ -38,7 +38,7 @@ The app follows the shared mk-styleguide design system. Read [styleguide/STYLEGU
 
 ## Prerequisites
 
-- Node.js 20 or higher (CI uses Node 20)
+- Node.js 24 or higher (CI uses Node 24)
 - Yarn 4.x (Berry, via Corepack)
 
 ## Getting Started
@@ -129,7 +129,7 @@ hexcalculator/
 
 This project is deployed to GitHub Pages using GitHub Actions (`.github/workflows/deploy.yml`):
 
-1. **Automatic Deployment**: Pushes to `main` (or manual `workflow_dispatch`) run `yarn install --immutable` and `yarn build` on Node 20
+1. **Automatic Deployment**: Pushes to `main` (or manual `workflow_dispatch`) run `yarn install --immutable` and `yarn build` on Node 24
 2. **Build Process**: Vite builds the production bundle with `base: '/hexcalculator/'`
 3. **GitHub Pages**: Deployed to https://mkokes.github.io/hexcalculator/
 
